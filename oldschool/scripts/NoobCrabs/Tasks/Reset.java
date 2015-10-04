@@ -9,10 +9,6 @@ import org.powerbot.script.rt4.GameObject;
 import java.util.concurrent.Callable;
 
 public class Reset extends Task<ClientContext> {
-    private final int THE_MINES_ID = 5008;
-    private final int THE_CRABS_ID = 5014;
-
-    private final int[] Rocks = {101,103};
 
     public Reset(ClientContext ctx) {
         super(ctx);
@@ -27,21 +23,31 @@ public class Reset extends Task<ClientContext> {
 
     @Override
     public void execute() {
-        final GameObject THE_MINES = ctx.objects.select().id(THE_MINES_ID).nearest().poll();
-        final GameObject THE_CRABS = ctx.objects.select().id(THE_CRABS_ID).nearest().poll();
+        final GameObject THE_MINES = ctx.objects.select().id(NoobCrabs.THE_MINES_ID).nearest().poll();
+        final GameObject THE_CRABS = ctx.objects.select().id(NoobCrabs.THE_CRABS_ID).nearest().poll();
 
         if (ctx.movement.step(THE_MINES)) {
             Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return ctx.players.local().tile().distanceTo(THE_MINES) < 10;
+                    return ctx.players.local().tile().distanceTo(THE_MINES) < 1;
                 }
-            }, 1000, 10);
+            }, 100, 100);
 
-            if (THE_MINES.inViewport())
+            if (THE_MINES.inViewport()) {
                 THE_MINES.interact("Enter"); //into the mines!
-        } else if (THE_CRABS.inViewport()) {
-            THE_CRABS.interact("Enter");
+
+                final boolean crabs_visible = Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return THE_CRABS.inViewport();
+                    }
+                }, 300, 18);
+
+                if (crabs_visible) {
+                    THE_CRABS.interact("Enter");
+                }
+            }
         }
     }
 }
