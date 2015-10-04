@@ -1,6 +1,7 @@
 package oldschool.scripts.NoobCrabs;
 
 import oldschool.scripts.Common.Utilities.Task;
+import oldschool.scripts.NoobCrabs.GUI.Paint;
 import oldschool.scripts.NoobCrabs.Tasks.Find;
 import oldschool.scripts.NoobCrabs.Tasks.Reset;
 import org.powerbot.script.PaintListener;
@@ -21,6 +22,8 @@ import java.util.Arrays;
 public class NoobCrabs extends PollingScript<ClientContext> implements PaintListener {
     public ArrayList<Task> tasks = new ArrayList<Task>();
 
+    public long start = 0;
+
     public static Npc nearestRock;
     public static final int[] Rocks = {101, 103};
     public static final int[] Crabs = {100, 102};
@@ -29,6 +32,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void start() {
+        start = System.currentTimeMillis();
         tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx)));
     }
 
@@ -46,6 +50,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void repaint(Graphics g) {
-
+        Paint paint = new Paint(ctx, start);
+        paint.repaint(g);
     }
 }
