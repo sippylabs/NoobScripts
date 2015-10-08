@@ -18,7 +18,8 @@ public class Reset extends Task<ClientContext> {
     public boolean activate() {
         return !ctx.players.local().inCombat()
                 && ctx.players.local().tile().distanceTo(NoobCrabs.nearestRock) < 1
-                && !ctx.players.local().inMotion();
+                && !ctx.players.local().inMotion()
+                && !NoobCrabs.nearestRock.inCombat();
     }
 
     @Override

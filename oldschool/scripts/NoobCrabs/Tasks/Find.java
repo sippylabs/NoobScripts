@@ -17,7 +17,8 @@ public class Find extends Task<ClientContext> {
         return NoobCrabs.nearestRock == null
                 || (!ctx.npcs.select().id(NoobCrabs.Rocks).isEmpty()
                 && (!ctx.players.local().inCombat() || NoobCrabs.nearestRock.health() < 1)
-                && ctx.players.local().tile().distanceTo(ctx.npcs.nearest().poll()) > 1);
+                && ctx.players.local().tile().distanceTo(ctx.npcs.nearest().poll()) > 1)
+                && ctx.players.local().interacting().combatLevel() == -1;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class Find extends Task<ClientContext> {
                 }
             }, 200, 10);
 
-            //for scrubs who forget auto-attack
+            //for scrubs who don't use auto-attack
             if (attacking && NoobCrabs.nearestRock.inViewport()) {
                 NoobCrabs.nearestRock.interact("Attack");
             }
