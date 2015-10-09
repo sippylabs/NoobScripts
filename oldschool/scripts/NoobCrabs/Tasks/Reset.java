@@ -6,6 +6,8 @@ import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.concurrent.Callable;
 
 public class Reset extends Task<ClientContext> {
@@ -41,7 +43,11 @@ public class Reset extends Task<ClientContext> {
                 final boolean crabs_visible = Condition.wait(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
-                        return THE_CRABS.inViewport();
+                        boolean visible = THE_CRABS.inViewport();
+
+                        System.out.println(new Timestamp(new Date().getTime()) + ":" + visible);
+
+                        return visible;
                     }
                 }, 300, 18);
 
