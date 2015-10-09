@@ -45,7 +45,7 @@ public class Find extends Task<ClientContext> {
                 @Override
                 public Boolean call() throws Exception {
                     System.out.println(new Timestamp(new Date().getTime()) + ": Waiting for crab to wake the fuck up.");
-                    return ctx.players.local().inCombat();
+                    return NoobCrabs.nearestRock.inCombat() || NoobCrabs.nearestRock.animation() > -1;
                 }
             }, 200, 10);
 
