@@ -1,16 +1,15 @@
-package oldschool.scripts.NoobCrabs;
+package oldschool.scripts.Noobcrabs;
 
 import oldschool.scripts.Common.Utilities.Task;
-import oldschool.scripts.NoobCrabs.Enums.Location;
-import oldschool.scripts.NoobCrabs.GUI.Paint;
-import oldschool.scripts.NoobCrabs.Tasks.Find;
-import oldschool.scripts.NoobCrabs.Tasks.Reset;
+import oldschool.scripts.Noobcrabs.Enums.Location;
+import oldschool.scripts.Noobcrabs.GUI.Paint;
+import oldschool.scripts.Noobcrabs.Tasks.Find;
+import oldschool.scripts.Noobcrabs.Tasks.Reset;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
-import org.powerbot.script.rt4.Npc;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     public long start = 0;
 
-    public static Npc nearestRock;
+    public static boolean resetting = false;
     public static final int[] Rocks = {101, 103};
     public static final int[] Crabs = {100, 102};
     public static final int THE_MINES_ID = 5008;
@@ -41,11 +40,20 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void start() {
-        this.atkxp = ctx.skills.experience(Constants.SKILLS_ATTACK);
-        this.strxp = ctx.skills.experience(Constants.SKILLS_STRENGTH);
-        this.defxp = ctx.skills.experience(Constants.SKILLS_DEFENSE);
-        this.hpxp = ctx.skills.experience(Constants.SKILLS_HITPOINTS);
-        this.location = Location.RIGHT.area().contains(ctx.players.local()) ? Location.RIGHT : Location.LEFT;
+        atkxp = ctx.skills.experience(Constants.SKILLS_ATTACK);
+        strxp = ctx.skills.experience(Constants.SKILLS_STRENGTH);
+        defxp = ctx.skills.experience(Constants.SKILLS_DEFENSE);
+        hpxp = ctx.skills.experience(Constants.SKILLS_HITPOINTS);
+
+        if (Location.LEFT.area().contains(ctx.players.local()))
+            location = Location.LEFT;
+        else if (Location.RIGHT.area().contains(ctx.players.local()))
+            location = Location.RIGHT;
+        else {
+            location = (ctx.players.local().tile().distanceTo(Location.LEFT.area().getCentralTile())
+                    > ctx.players.local().tile().distanceTo(Location.RIGHT.area().getCentralTile()))
+                    ? Location.RIGHT : Location.LEFT;
+        }
 
         start = System.currentTimeMillis();
         tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx)));
