@@ -10,6 +10,7 @@ import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
+import org.powerbot.script.rt4.Game;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
     public static final int[] Crabs = {100, 102};
     public static final int THE_MINES_ID = 5008;
     public static final int THE_CRABS_ID = 5014;
+    public static Game session;
 
     public static String status = "Initialising...";
     public static int atkxp = 0;
@@ -40,6 +42,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void start() {
+        session = new Game(ctx);
         atkxp = ctx.skills.experience(Constants.SKILLS_ATTACK);
         strxp = ctx.skills.experience(Constants.SKILLS_STRENGTH);
         defxp = ctx.skills.experience(Constants.SKILLS_DEFENSE);

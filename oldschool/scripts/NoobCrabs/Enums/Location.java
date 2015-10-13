@@ -4,23 +4,28 @@ import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 
 public enum Location {
-    LEFT("Left", new Area(new Tile(2662, 3734, 0), new Tile(2688, 3712, 0))),
-    RIGHT("Right", new Area(new Tile(2692, 3730, 0), new Tile(2720, 3713, 0)));
+    LEFT(
+            new Area(new Tile(2662, 3734, 0), new Tile(2688, 3712, 0)),
+            new Tile[]{new Tile(2673, 3710), new Tile(2674, 3702), new Tile(2673, 3694)}
+    ),
+    RIGHT(
+            new Area(new Tile(2692, 3730, 0), new Tile(2720, 3713, 0)),
+            new Tile[]{new Tile(2720, 3716), new Tile(2724, 3713), new Tile(2729, 3713)}
+    );
 
-
-    private final String side;
     private final Area area;
+    private final Tile[] resetPath;
 
-    Location(final String side, final Area area) {
-        this.side = side;
+    Location(final Area area, final Tile[] resetPath) {
         this.area = area;
-    }
-
-    public String side() {
-        return this.side;
+        this.resetPath = resetPath;
     }
 
     public Area area() {
         return this.area;
+    }
+
+    public Tile[] resetPath() {
+        return this.resetPath;
     }
 }

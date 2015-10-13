@@ -31,15 +31,17 @@ public class Find extends Task<ClientContext> {
         NoobCrabs.status = "Finding crab...";
         final Npc nearestRock = ctx.npcs.nearest().poll();
 
-        while (ctx.players.local().tile().distanceTo(nearestRock) > 1) {
-            System.out.println(ctx.players.local().tile().distanceTo(nearestRock));
+        while (NoobCrabs.session.loggedIn() && ctx.players.local().tile().distanceTo(nearestRock) > 1) {
             ctx.movement.step(nearestRock);
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return ctx.players.local().tile().distanceTo(ctx.movement.destination()) < 10;
-                }
-            });
+
+            if (ctx.players.local().inMotion()) {
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return ctx.players.local().tile().distanceTo(ctx.movement.destination()) < 10;
+                    }
+                });
+            }
         }
 
         if (ctx.players.local().tile().distanceTo(nearestRock) <= 1) {
@@ -49,7 +51,7 @@ public class Find extends Task<ClientContext> {
                 public Boolean call() throws Exception {
                     return ctx.players.local().inCombat() || nearestRock.inCombat();
                 }
-            }, 200, 10);
+            }, 200, 2);
 
             //for scrubs who don't use auto-attack
             if (ctx.players.local().animation() < 1 && nearestRock.interacting().equals(ctx.players.local())) {
