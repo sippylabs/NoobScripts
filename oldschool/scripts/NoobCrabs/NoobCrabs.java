@@ -8,6 +8,7 @@ import oldschool.scripts.NoobCrabs.Tasks.Reset;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
+import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Game;
@@ -29,8 +30,8 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
     public static boolean resetting = false;
     public static final int[] Rocks = {101, 103};
     public static final int[] Crabs = {100, 102};
-    public static final int THE_MINES_ID = 5008;
-    public static final int THE_CRABS_ID = 5014;
+    public static final int resetCaveId = 5008;
+    public static final int resetCaveExitId = 5014;
     public static Game session;
 
     public static String status = "Initialising...";
@@ -53,8 +54,9 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
         else if (Location.RIGHT.area().contains(ctx.players.local()))
             location = Location.RIGHT;
         else {
-            location = (ctx.players.local().tile().distanceTo(Location.LEFT.area().getCentralTile())
-                    > ctx.players.local().tile().distanceTo(Location.RIGHT.area().getCentralTile()))
+            Tile player = ctx.players.local().tile();
+            location = (player.distanceTo(Location.LEFT.area().getCentralTile())
+                    > player.distanceTo(Location.RIGHT.area().getCentralTile()))
                     ? Location.RIGHT : Location.LEFT;
         }
 
