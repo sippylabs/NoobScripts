@@ -3,6 +3,7 @@ package oldschool.scripts.NoobCrabs;
 import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.Enums.Location;
 import oldschool.scripts.NoobCrabs.GUI.Paint;
+import oldschool.scripts.NoobCrabs.GUI.StartupInterface;
 import oldschool.scripts.NoobCrabs.Tasks.Attack;
 import oldschool.scripts.NoobCrabs.Tasks.Eat;
 import oldschool.scripts.NoobCrabs.Tasks.Find;
@@ -32,8 +33,9 @@ import java.util.Date;
 public class NoobCrabs extends PollingScript<ClientContext> implements PaintListener {
     public ArrayList<Task> tasks = new ArrayList<Task>();
 
-    public long start = 0;
+    public static long start = 0;
 
+    public static boolean initialising = true;
     public static boolean resetting = false;
     public static final int[] Rocks = {101, 103};
     public static final int[] Crabs = {100, 102};
@@ -42,6 +44,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
     public static Game session;
 
     public static String status = "Initialising...";
+    public static double eatAtPercentage = 0.5;
     public static int atkxp = 0;
     public static int strxp = 0;
     public static int defxp = 0;
@@ -67,15 +70,19 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
                     ? Location.RIGHT : Location.LEFT;
         }
 
-        start = System.currentTimeMillis();
         tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx), new Attack(ctx), new Eat(ctx)));
+
+        StartupInterface dialog = new StartupInterface(ctx);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
     @Override
     public void poll() {
-        for (Task task : tasks)
-            if (task.activate())
-                task.execute();
+        if (!initialising)
+            for (Task task : tasks)
+                if (task.activate())
+                    task.execute();
     }
 
     @Override

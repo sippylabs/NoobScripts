@@ -23,7 +23,7 @@ public class Eat extends Task<ClientContext> {
                 return Arrays.asList(gameObject.actions()).contains("Eat");
             }
         }).isEmpty()
-                && ctx.players.local().health() < ctx.players.local().maxHealth() * 0.5;
+                && ctx.players.local().health() < ctx.players.local().maxHealth() * NoobCrabs.eatAtPercentage;
     }
 
     @Override
