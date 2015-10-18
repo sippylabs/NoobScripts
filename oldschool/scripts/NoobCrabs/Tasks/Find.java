@@ -4,10 +4,10 @@ import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
+import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
 
-import java.util.Random;
 import java.util.concurrent.Callable;
 
 public class Find extends Task<ClientContext> {
@@ -57,26 +57,26 @@ public class Find extends Task<ClientContext> {
             }, 200, 10);
         }
 
-        if (attacking)
-            switch (new Random().nextInt(6)) {
-                case 0:
-                    NoobCrabs.status = "Calling crab a punk.";
-                    break;
-                case 1:
-                    NoobCrabs.status = "Ruining crab's day.";
-                    break;
-                case 2:
-                    NoobCrabs.status = "Insulting crab's mom.";
-                    break;
-                case 3:
-                    NoobCrabs.status = "Fucking up crab.";
-                    break;
-                case 4:
-                    NoobCrabs.status = "Mugging crab.";
-                    break;
-                case 5:
-                    NoobCrabs.status = "Breaking crab's legs.";
-                    break;
-            }
+        switch (new Random().nextInt(0, 6)) {
+            case 0:
+                NoobCrabs.status = "Calling crab a punk.";
+                break;
+            case 1:
+                NoobCrabs.status = "Ruining crab's day.";
+                break;
+            case 2:
+                NoobCrabs.status = "Insulting crab's mom.";
+                break;
+            case 3:
+                NoobCrabs.status = "Fucking up crab.";
+                break;
+            case 4:
+                NoobCrabs.status = "Mugging crab.";
+                break;
+            case 5:
+                NoobCrabs.status = "Breaking crab's legs.";
+                break;
+
+        }
     }
 }
