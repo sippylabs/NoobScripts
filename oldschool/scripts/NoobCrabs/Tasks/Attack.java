@@ -35,7 +35,6 @@ public class Attack extends Task<ClientContext> {
         }).isEmpty()) {
             final Npc nearestNpc = ctx.npcs.nearest().poll();
 
-            System.out.println(nearestNpc.actions());
             nearestNpc.interact("Attack");
 
             Condition.wait(new Callable<Boolean>() {

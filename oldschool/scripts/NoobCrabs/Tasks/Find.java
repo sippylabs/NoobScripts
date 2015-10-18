@@ -20,10 +20,8 @@ public class Find extends Task<ClientContext> {
         final Npc nearestCrab = ctx.npcs.select().id(NoobCrabs.Crabs).within(NoobCrabs.location.area()).nearest().poll();
 
         return !ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).isEmpty()
-                && (
-                (ctx.players.local().interacting().valid() && ctx.players.local().interacting().health() < 1)
-                        || !ctx.players.local().interacting().valid()
-        )
+                && ((ctx.players.local().interacting().valid() && ctx.players.local().interacting().health() < 1)
+                || !ctx.players.local().interacting().valid())
                 && (NoobCrabs.session.loggedIn() && !NoobCrabs.resetting)
                 && (ctx.npcs.select().select(new Filter<Npc>() {
             @Override
@@ -36,6 +34,7 @@ public class Find extends Task<ClientContext> {
 
     @Override
     public void execute() {
+        boolean attacking = false;
         NoobCrabs.status = "Finding crab...";
         final Npc nearestRock = ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).nearest().poll();
 
@@ -50,13 +49,15 @@ public class Find extends Task<ClientContext> {
             });
         } else if (ctx.players.local().tile().distanceTo(nearestRock) <= 1) {
             //wait for the crab to wake the fuck up
-            final boolean attacking = Condition.wait(new Callable<Boolean>() {
+            attacking = Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
                     return ctx.players.local().inCombat() || nearestRock.inCombat();
                 }
             }, 200, 10);
+        }
 
+        if (attacking)
             switch (new Random().nextInt(6)) {
                 case 0:
                     NoobCrabs.status = "Calling crab a punk.";
@@ -77,6 +78,5 @@ public class Find extends Task<ClientContext> {
                     NoobCrabs.status = "Breaking crab's legs.";
                     break;
             }
-        }
     }
 }

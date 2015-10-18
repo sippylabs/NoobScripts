@@ -51,7 +51,7 @@ public class Reset extends Task<ClientContext> {
                 } else reset.traverse();
             }
         } else if (NoobCrabs.location == Location.RIGHT) {
-            final GameObject caveEntrance = ctx.objects.id(NoobCrabs.resetCaveId).poll();
+            final GameObject caveEntrance = ctx.objects.select().id(NoobCrabs.resetCaveId).poll();
             final GameObject caveExit = ctx.objects.select().id(NoobCrabs.resetCaveExitId).poll();
 
             if (!walkBack && caveEntrance.valid()) {
