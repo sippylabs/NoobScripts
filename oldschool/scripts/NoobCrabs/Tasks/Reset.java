@@ -23,7 +23,7 @@ public class Reset extends Task<ClientContext> {
         final Npc nearbyRock = ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).nearest().poll();
 
         return NoobCrabs.resetting
-                || (nearbyRock != null
+                || (nearbyRock.valid()
                 && !ctx.players.local().inCombat()
                 && ctx.players.local().tile().distanceTo(nearbyRock) <= 1
                 && !ctx.players.local().inMotion()
@@ -95,11 +95,12 @@ public class Reset extends Task<ClientContext> {
                 }
 
                 if (outside) {
-                    if (ctx.players.local().tile().equals(reset.end())) {
-                        NoobCrabs.resetting = false;
-                        walkBack = false;
-                    } else reset.traverse();
+                    reset.traverse();
+                    NoobCrabs.resetting = false;
+                    walkBack = false;
                 }
+            } else {
+                reset.traverse();
             }
         }
     }
