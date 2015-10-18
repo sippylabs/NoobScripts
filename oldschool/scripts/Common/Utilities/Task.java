@@ -15,7 +15,7 @@ public abstract class Task<C extends ClientContext> extends ClientAccessor<C> {
 
     public abstract void execute();
 
-    public void log(String msg) {
-        System.out.println("[" + new Timestamp(new Date().getTime()) + "]: " + msg);
+    public void log(Object msg) {
+        System.out.println("[" + new Timestamp(new Date().getTime()) + "]: " + String.valueOf(msg));
     }
 }
