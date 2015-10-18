@@ -14,7 +14,10 @@ import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Game;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -74,12 +77,26 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void stop() {
-
+        screenShot();
     }
 
     @Override
     public void repaint(Graphics g) {
         Paint paint = new Paint(ctx, start, status);
         paint.repaint(g);
+    }
+
+    private void screenShot() {
+        final int width = ctx.game.dimensions().width, height = ctx.game.dimensions().height;
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        // your paint's repaint(Graphics) method
+        repaint(img.createGraphics());
+        img = img.getSubimage(5, 5, 140, 180);
+        final File screenshot = new File(getStorageDirectory(), ctx.controller.script().getName() + "_" + String.valueOf(System.currentTimeMillis()).concat(".png"));
+        try {
+            ImageIO.write(img, "png", screenshot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
