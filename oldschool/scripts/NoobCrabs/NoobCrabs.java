@@ -1,5 +1,6 @@
 package oldschool.scripts.NoobCrabs;
 
+import oldschool.scripts.Common.Utilities.Startup;
 import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.Enums.Location;
 import oldschool.scripts.NoobCrabs.GUI.Paint;
@@ -14,7 +15,6 @@ import org.powerbot.script.Script;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
-import org.powerbot.script.rt4.Game;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,38 +26,26 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Script.Manifest(
-        name = "OS NoobCrabs",
+        name = "Noob Crabs",
         description = "new quote",
         properties = "client = 4"
 )
 public class NoobCrabs extends PollingScript<ClientContext> implements PaintListener {
     public ArrayList<Task> tasks = new ArrayList<Task>();
-
-    public static long start = 0;
+    public Startup start;
 
     public static boolean initialising = true;
     public static boolean resetting = false;
-    public static final int[] Rocks = {101, 103};
-    public static final int[] Crabs = {100, 102};
-    public static final int resetCaveId = 5008;
-    public static final int resetCaveExitId = 5014;
-    public static Game session;
-
     public static String status = "Initialising...";
-    public static double eatAtPercentage = 0.5;
-    public static int atkxp = 0;
-    public static int strxp = 0;
-    public static int defxp = 0;
-    public static int hpxp = 0;
     public static Location location;
 
     @Override
     public void start() {
-        session = new Game(ctx);
-        atkxp = ctx.skills.experience(Constants.SKILLS_ATTACK);
-        strxp = ctx.skills.experience(Constants.SKILLS_STRENGTH);
-        defxp = ctx.skills.experience(Constants.SKILLS_DEFENSE);
-        hpxp = ctx.skills.experience(Constants.SKILLS_HITPOINTS);
+        start = new Startup();
+        start.atkxp = ctx.skills.experience(Constants.SKILLS_ATTACK);
+        start.strxp = ctx.skills.experience(Constants.SKILLS_STRENGTH);
+        start.defxp = ctx.skills.experience(Constants.SKILLS_DEFENSE);
+        start.hpxp = ctx.skills.experience(Constants.SKILLS_HITPOINTS);
 
         if (Location.LEFT.area().contains(ctx.players.local()))
             location = Location.LEFT;
@@ -70,9 +58,9 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
                     ? Location.RIGHT : Location.LEFT;
         }
 
-        tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx), new Attack(ctx), new Eat(ctx)));
+        tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx), new Attack(ctx), new Eat(ctx, start.eatAtPercentage)));
 
-        StartupInterface dialog = new StartupInterface(ctx);
+        StartupInterface dialog = new StartupInterface(ctx, start);
         dialog.pack();
         dialog.setVisible(true);
     }

@@ -1,6 +1,7 @@
 package oldschool.scripts.NoobCrabs.Tasks;
 
 import oldschool.scripts.Common.Utilities.Task;
+import oldschool.scripts.NoobCrabs.Enums.Target;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
@@ -17,12 +18,12 @@ public class Find extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        final Npc nearestCrab = ctx.npcs.select().id(NoobCrabs.Crabs).within(NoobCrabs.location.area()).nearest().poll();
+        final Npc nearestCrab = ctx.npcs.select().id(Target.CRAB.ids()).within(NoobCrabs.location.area()).nearest().poll();
 
-        return !ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).isEmpty()
+        return !ctx.npcs.select().id(Target.ROCK.ids()).within(NoobCrabs.location.area()).isEmpty()
                 && ((ctx.players.local().interacting().valid() && ctx.players.local().interacting().health() < 1)
                 || !ctx.players.local().interacting().valid())
-                && (NoobCrabs.session.loggedIn() && !NoobCrabs.resetting)
+                && (ctx.game.loggedIn() && !NoobCrabs.resetting)
                 && (ctx.npcs.select().select(new Filter<Npc>() {
             @Override
             public boolean accept(Npc npc) {
@@ -36,7 +37,7 @@ public class Find extends Task<ClientContext> {
     public void execute() {
         boolean attacking = false;
         NoobCrabs.status = "Finding crab...";
-        final Npc nearestRock = ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).nearest().poll();
+        final Npc nearestRock = ctx.npcs.select().id(Target.ROCK.ids()).within(NoobCrabs.location.area()).nearest().poll();
 
         if (ctx.players.local().tile().distanceTo(nearestRock) > 1) {
             ctx.movement.step(nearestRock);
@@ -49,7 +50,7 @@ public class Find extends Task<ClientContext> {
             });
         } else if (ctx.players.local().tile().distanceTo(nearestRock) <= 1) {
             //wait for the crab to wake the fuck up
-            attacking = Condition.wait(new Callable<Boolean>() {
+            Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
                     return ctx.players.local().inCombat() || nearestRock.inCombat();
@@ -57,7 +58,7 @@ public class Find extends Task<ClientContext> {
             }, 200, 10);
         }
 
-        switch (new Random().nextInt(0, 6)) {
+        switch (Random.nextInt(0, 6)) {
             case 0:
                 NoobCrabs.status = "Calling crab a punk.";
                 break;

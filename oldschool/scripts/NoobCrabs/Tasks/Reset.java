@@ -2,6 +2,7 @@ package oldschool.scripts.NoobCrabs.Tasks;
 
 import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.Enums.Location;
+import oldschool.scripts.NoobCrabs.Enums.Target;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
@@ -13,6 +14,8 @@ import java.util.concurrent.Callable;
 
 public class Reset extends Task<ClientContext> {
     private boolean walkBack = false;
+    private final int resetCaveId = 5008;
+    private final int resetCaveExitId = 5014;
 
     public Reset(ClientContext ctx) {
         super(ctx);
@@ -20,7 +23,7 @@ public class Reset extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        final Npc nearbyRock = ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).nearest().poll();
+        final Npc nearbyRock = ctx.npcs.select().id(Target.ROCK.ids()).within(NoobCrabs.location.area()).nearest().poll();
 
         return NoobCrabs.resetting
                 || (nearbyRock.valid()
@@ -51,8 +54,8 @@ public class Reset extends Task<ClientContext> {
                 } else reset.traverse();
             }
         } else if (NoobCrabs.location == Location.RIGHT) {
-            final GameObject caveEntrance = ctx.objects.select().id(NoobCrabs.resetCaveId).poll();
-            final GameObject caveExit = ctx.objects.select().id(NoobCrabs.resetCaveExitId).poll();
+            final GameObject caveEntrance = ctx.objects.select().id(resetCaveId).poll();
+            final GameObject caveExit = ctx.objects.select().id(resetCaveExitId).poll();
 
             if (!walkBack && caveEntrance.valid()) {
                 if (ctx.players.local().tile().equals(reset.end())) {
@@ -89,7 +92,7 @@ public class Reset extends Task<ClientContext> {
                         }
                     }, 100, 20);
                 } else if (caveEntrance.valid() && caveEntrance.inViewport()) {
-                    ctx.objects.id(NoobCrabs.resetCaveId).poll().click(true);
+                    ctx.objects.id(resetCaveId).poll().click(true);
                 } else {
                     ctx.movement.findPath(caveExit).traverse();
                 }

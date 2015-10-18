@@ -10,20 +10,23 @@ import org.powerbot.script.rt4.Item;
 import java.util.Arrays;
 
 public class Eat extends Task<ClientContext> {
-    public Eat(ClientContext ctx) {
+    private double eatAtPercentage;
+
+    public Eat(ClientContext ctx, double eatAtPercentage) {
         super(ctx);
+        this.eatAtPercentage = eatAtPercentage;
     }
 
     @Override
     public boolean activate() {
-        return NoobCrabs.session.loggedIn()
+        return ctx.game.loggedIn()
                 && !ctx.inventory.select().select(new Filter<Item>() {
             @Override
             public boolean accept(Item gameObject) {
                 return Arrays.asList(gameObject.actions()).contains("Eat");
             }
         }).isEmpty()
-                && ctx.players.local().health() < ctx.players.local().maxHealth() * NoobCrabs.eatAtPercentage;
+                && ctx.players.local().health() < ctx.players.local().maxHealth() * eatAtPercentage;
     }
 
     @Override

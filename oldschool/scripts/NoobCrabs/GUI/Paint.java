@@ -1,6 +1,6 @@
 package oldschool.scripts.NoobCrabs.GUI;
 
-import oldschool.scripts.NoobCrabs.NoobCrabs;
+import oldschool.scripts.Common.Utilities.Startup;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.rt4.ClientAccessor;
 import org.powerbot.script.rt4.ClientContext;
@@ -16,14 +16,14 @@ public class Paint extends ClientAccessor implements PaintListener {
     private final Font font1 = new Font("Arial", 3, 20);
     private final Font font2 = new Font("Arial", 0, 9);
 
-    private long start = 0;
+    private Startup start;
     private String status;
     private int atkxp = 0;
     private int strxp = 0;
     private int defxp = 0;
     private int hpxp = 0;
 
-    public Paint(ClientContext ctx, long start, String status) {
+    public Paint(ClientContext ctx, Startup start, String status) {
         super(ctx);
         this.start = start;
         this.status = status;
@@ -60,7 +60,7 @@ public class Paint extends ClientAccessor implements PaintListener {
     }
 
     private String getTimeRunning() {
-        long timeRunning = System.currentTimeMillis() - start;
+        long timeRunning = System.currentTimeMillis() - start.startTime;
 
         int hoursRunning = (int) timeRunning / 3600000;
         int minutesRunning = (int) timeRunning / 60000 - hoursRunning * 60;
@@ -72,9 +72,9 @@ public class Paint extends ClientAccessor implements PaintListener {
     }
 
     private int getCombatXPGained() {
-        int atkxp = this.atkxp - NoobCrabs.atkxp;
-        int strxp = this.strxp - NoobCrabs.strxp;
-        int defxp = this.defxp - NoobCrabs.defxp;
+        int atkxp = this.atkxp - start.atkxp;
+        int strxp = this.strxp - start.strxp;
+        int defxp = this.defxp - start.defxp;
 
         return atkxp + strxp + defxp;
     }
@@ -84,11 +84,11 @@ public class Paint extends ClientAccessor implements PaintListener {
 
         if (xp < 1)
             return 0;
-        return (int) (xp * 3600000D / (System.currentTimeMillis() - start));
+        return (int) (xp * 3600000D / (System.currentTimeMillis() - start.startTime));
     }
 
     private int getHpXPGained() {
-        return this.hpxp - NoobCrabs.hpxp;
+        return this.hpxp - start.hpxp;
     }
 
     private int getHpXPPerHour() {
@@ -96,6 +96,6 @@ public class Paint extends ClientAccessor implements PaintListener {
 
         if (xp < 1)
             return 0;
-        return (int) (xp * 3600000D / (System.currentTimeMillis() - start));
+        return (int) (xp * 3600000D / (System.currentTimeMillis() - start.startTime));
     }
 }

@@ -1,6 +1,7 @@
 package oldschool.scripts.NoobCrabs.Tasks;
 
 import oldschool.scripts.Common.Utilities.Task;
+import oldschool.scripts.NoobCrabs.Enums.Target;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
@@ -18,7 +19,7 @@ public class Attack extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        nearestCrab = ctx.npcs.select().id(NoobCrabs.Crabs).within(NoobCrabs.location.area()).nearest().poll();
+        nearestCrab = ctx.npcs.select().id(Target.CRAB.ids()).within(NoobCrabs.location.area()).nearest().poll();
 
         return !NoobCrabs.resetting
                 && !ctx.players.local().inMotion()

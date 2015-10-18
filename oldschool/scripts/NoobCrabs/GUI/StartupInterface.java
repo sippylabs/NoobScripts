@@ -1,5 +1,6 @@
 package oldschool.scripts.NoobCrabs.GUI;
 
+import oldschool.scripts.Common.Utilities.Startup;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
 import org.powerbot.script.rt4.ClientContext;
 
@@ -15,18 +16,20 @@ public class StartupInterface extends JDialog {
     private JSlider healthPercentSlider;
     private JLabel healthPercent;
     private ClientContext ctx;
+    private Startup start;
 
-    public StartupInterface(ClientContext ctx) {
+    public StartupInterface(ClientContext ctx, Startup start) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonStart);
         this.ctx = ctx;
+        this.start = start;
         healthPercent.setText(String.valueOf(healthPercentSlider.getValue()) + "%");
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-
+            System.out.println("Failed to set UI look and feel. Rare and pointless exception.");
         }
 
         buttonStart.addActionListener(new ActionListener() {
@@ -63,8 +66,8 @@ public class StartupInterface extends JDialog {
     }
 
     private void onOK() {
-        NoobCrabs.start = System.currentTimeMillis();
-        NoobCrabs.eatAtPercentage = healthPercentSlider.getValue() / 100;
+        start.startTime = System.currentTimeMillis();
+        start.eatAtPercentage = healthPercentSlider.getValue() / 100;
         NoobCrabs.initialising = false;
         dispose();
     }
