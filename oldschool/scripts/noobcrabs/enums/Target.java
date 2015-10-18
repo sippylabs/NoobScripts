@@ -1,4 +1,4 @@
-package oldschool.scripts.NoobCrabs.Enums;
+package oldschool.scripts.noobcrabs.enums;
 
 public enum Target {
     CRAB(

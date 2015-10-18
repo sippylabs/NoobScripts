@@ -1,4 +1,4 @@
-package oldschool.scripts.Common.Utilities;
+package oldschool.scripts.common.utilities;
 
 public class Startup {
     public long startTime = 0;

@@ -1,4 +1,4 @@
-package oldschool.scripts.NoobCrabs.Enums;
+package oldschool.scripts.noobcrabs.enums;
 
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;

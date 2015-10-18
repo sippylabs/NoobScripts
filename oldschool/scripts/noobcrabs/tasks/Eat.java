@@ -1,7 +1,7 @@
-package oldschool.scripts.NoobCrabs.Tasks;
+package oldschool.scripts.noobcrabs.tasks;
 
-import oldschool.scripts.Common.Utilities.Task;
-import oldschool.scripts.NoobCrabs.NoobCrabs;
+import oldschool.scripts.common.utilities.Task;
+import oldschool.scripts.noobcrabs.NoobCrabs;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;

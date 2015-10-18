@@ -1,14 +1,14 @@
-package oldschool.scripts.NoobCrabs;
+package oldschool.scripts.noobcrabs;
 
-import oldschool.scripts.Common.Utilities.Startup;
-import oldschool.scripts.Common.Utilities.Task;
-import oldschool.scripts.NoobCrabs.Enums.Location;
-import oldschool.scripts.NoobCrabs.GUI.Paint;
-import oldschool.scripts.NoobCrabs.GUI.StartupInterface;
-import oldschool.scripts.NoobCrabs.Tasks.Attack;
-import oldschool.scripts.NoobCrabs.Tasks.Eat;
-import oldschool.scripts.NoobCrabs.Tasks.Find;
-import oldschool.scripts.NoobCrabs.Tasks.Reset;
+import oldschool.scripts.common.utilities.Startup;
+import oldschool.scripts.common.utilities.Task;
+import oldschool.scripts.noobcrabs.enums.Location;
+import oldschool.scripts.noobcrabs.gui.Paint;
+import oldschool.scripts.noobcrabs.gui.StartupInterface;
+import oldschool.scripts.noobcrabs.tasks.Attack;
+import oldschool.scripts.noobcrabs.tasks.Eat;
+import oldschool.scripts.noobcrabs.tasks.Find;
+import oldschool.scripts.noobcrabs.tasks.Reset;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
