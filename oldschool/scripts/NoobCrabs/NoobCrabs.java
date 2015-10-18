@@ -3,6 +3,7 @@ package oldschool.scripts.NoobCrabs;
 import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.Enums.Location;
 import oldschool.scripts.NoobCrabs.GUI.Paint;
+import oldschool.scripts.NoobCrabs.Tasks.Attack;
 import oldschool.scripts.NoobCrabs.Tasks.Find;
 import oldschool.scripts.NoobCrabs.Tasks.Reset;
 import org.powerbot.script.PaintListener;
@@ -61,7 +62,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
         }
 
         start = System.currentTimeMillis();
-        tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx)));
+        tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx), new Attack(ctx)));
     }
 
     @Override
