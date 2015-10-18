@@ -3,13 +3,14 @@ package oldschool.scripts.NoobCrabs.Tasks;
 import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
 import org.powerbot.script.Condition;
+import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
 
 import java.util.concurrent.Callable;
 
 public class Attack extends Task<ClientContext> {
-    private Npc nearbyCrab;
+    private Npc nearestCrab;
 
     public Attack(ClientContext ctx) {
         super(ctx);
@@ -17,31 +18,41 @@ public class Attack extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        nearbyCrab = ctx.npcs.select().id(NoobCrabs.Crabs).nearest().poll();
+        nearestCrab = ctx.npcs.select().id(NoobCrabs.Crabs).within(NoobCrabs.location.area()).nearest().poll();
 
-        if (ctx.players.local().interacting().valid()) {
-            return ctx.players.local().interacting().health() < 1
-                    && ctx.players.local().tile().distanceTo(nearbyCrab) < 15
-                    && !nearbyCrab.inCombat()
-                    && !NoobCrabs.resetting;
-        }
-        return !ctx.players.local().inCombat()
-                && ctx.players.local().tile().distanceTo(nearbyCrab) < 15
-                && !nearbyCrab.inCombat()
-                && !NoobCrabs.resetting;
+        return !NoobCrabs.resetting
+                && !ctx.players.local().inMotion()
+                && !ctx.players.local().interacting().valid();
     }
 
     @Override
     public void execute() {
-        NoobCrabs.status = "Attacking crab";
+        if (!ctx.npcs.select().select(new Filter<Npc>() {
+            @Override
+            public boolean accept(Npc npc) {
+                return npc.interacting().name().equals(ctx.players.local().name());
+            }
+        }).isEmpty()) {
+            final Npc nearestNpc = ctx.npcs.nearest().poll();
 
-        if (!nearbyCrab.equals(ctx.npcs.nil()) && nearbyCrab.interact("Attack")) {
+            System.out.println(nearestNpc.actions());
+            nearestNpc.interact("Attack");
+
             Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return nearbyCrab.interacting().equals(ctx.players.local());
+                    return nearestNpc.interacting().name().equals(ctx.players.local().name());
                 }
-            }, 50, 20);
+            }, 200, 10);
+        } else {
+            if (nearestCrab.valid() && nearestCrab.interact("Attack")) {
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return nearestCrab.interacting().name().equals(ctx.players.local().name());
+                    }
+                }, 100, 30);
+            }
         }
     }
 }
