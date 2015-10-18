@@ -60,7 +60,7 @@ public class Paint extends ClientAccessor implements PaintListener {
     }
 
     private String getTimeRunning() {
-        long timeRunning = ctx.controller.script().getTotalRuntime();
+        long timeRunning = System.currentTimeMillis() - start;
 
         int hoursRunning = (int) timeRunning / 3600000;
         int minutesRunning = (int) timeRunning / 60000 - hoursRunning * 60;
@@ -84,7 +84,7 @@ public class Paint extends ClientAccessor implements PaintListener {
 
         if (xp < 1)
             return 0;
-        return (int) (xp * 3600000D / ctx.controller.script().getTotalRuntime());
+        return (int) (xp * 3600000D / (System.currentTimeMillis() - start));
     }
 
     private int getHpXPGained() {
@@ -96,6 +96,6 @@ public class Paint extends ClientAccessor implements PaintListener {
 
         if (xp < 1)
             return 0;
-        return (int) (xp * 3600000D / ctx.controller.script().getTotalRuntime());
+        return (int) (xp * 3600000D / (System.currentTimeMillis() - start));
     }
 }

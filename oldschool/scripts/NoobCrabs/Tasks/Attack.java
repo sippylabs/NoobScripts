@@ -35,7 +35,8 @@ public class Attack extends Task<ClientContext> {
         }).isEmpty()) {
             final Npc nearestNpc = ctx.npcs.nearest().poll();
 
-            nearestNpc.interact("Attack");
+            if (!nearestNpc.interact("Dismiss"))
+                nearestNpc.interact("Attack");
 
             Condition.wait(new Callable<Boolean>() {
                 @Override

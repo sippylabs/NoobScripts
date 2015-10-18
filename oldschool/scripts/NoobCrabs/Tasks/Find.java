@@ -44,7 +44,7 @@ public class Find extends Task<ClientContext> {
             Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return ctx.players.local().tile().distanceTo(ctx.movement.destination()) < 10;
+                    return ctx.players.local().tile().distanceTo(ctx.movement.destination()) < 4;
                 }
             });
         } else if (ctx.players.local().tile().distanceTo(nearestRock) <= 1) {
