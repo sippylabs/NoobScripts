@@ -1,5 +1,7 @@
 package oldschool.scripts.NoobCrabs;
 
+import oldschool.scripts.Common.Utilities.Startup;
+import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.Enums.Location;
 import oldschool.scripts.NoobCrabs.GUI.Paint;
 import oldschool.scripts.NoobCrabs.GUI.StartupInterface;
@@ -7,8 +9,6 @@ import oldschool.scripts.NoobCrabs.Tasks.Attack;
 import oldschool.scripts.NoobCrabs.Tasks.Eat;
 import oldschool.scripts.NoobCrabs.Tasks.Find;
 import oldschool.scripts.NoobCrabs.Tasks.Reset;
-import oldschool.scripts.common.utilities.Startup;
-import oldschool.scripts.common.utilities.Task;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;

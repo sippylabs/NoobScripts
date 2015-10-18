@@ -1,9 +1,9 @@
 package oldschool.scripts.NoobCrabs.Tasks;
 
+import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.Enums.Location;
 import oldschool.scripts.NoobCrabs.Enums.Target;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
-import oldschool.scripts.common.utilities.Task;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
