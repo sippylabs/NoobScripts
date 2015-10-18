@@ -18,8 +18,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 @Script.Manifest(
         name = "OS NoobCrabs",
@@ -92,7 +94,8 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
         // your paint's repaint(Graphics) method
         repaint(img.createGraphics());
         img = img.getSubimage(5, 5, 140, 180);
-        final File screenshot = new File(getStorageDirectory(), ctx.controller.script().getName() + "_" + String.valueOf(System.currentTimeMillis()).concat(".png"));
+        final File screenshot = new File(getStorageDirectory(), ctx.controller.script().getName() + "_"
+                + String.valueOf(new SimpleDateFormat("ddMMyy-HHmmssSSS").format(new Date())).concat(".png"));
         try {
             ImageIO.write(img, "png", screenshot);
         } catch (Exception e) {
