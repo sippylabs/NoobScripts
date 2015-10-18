@@ -3,6 +3,7 @@ package oldschool.scripts.NoobCrabs.Tasks;
 import oldschool.scripts.Common.Utilities.Task;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
 import org.powerbot.script.Condition;
+import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
 
@@ -16,22 +17,27 @@ public class Find extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        if (!NoobCrabs.session.loggedIn())
-            return false;
-        if (ctx.players.local().interacting().valid())
-            return (!ctx.players.local().inCombat()
-                    || ctx.players.local().interacting().health() < 1)
-                    && !ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).isEmpty()
-                    && !NoobCrabs.resetting;
-        return !ctx.players.local().inCombat()
-                && !ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).isEmpty()
-                && !NoobCrabs.resetting;
+        final Npc nearestCrab = ctx.npcs.select().id(NoobCrabs.Crabs).within(NoobCrabs.location.area()).nearest().poll();
+
+        return !ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).isEmpty()
+                && (
+                (ctx.players.local().interacting().valid() && ctx.players.local().interacting().health() < 1)
+                        || !ctx.players.local().interacting().valid()
+        )
+                && (NoobCrabs.session.loggedIn() && !NoobCrabs.resetting)
+                && (ctx.npcs.select().select(new Filter<Npc>() {
+            @Override
+            public boolean accept(Npc npc) {
+                return npc.interacting().name().equals(ctx.players.local().name());
+            }
+        }).isEmpty())
+                && (nearestCrab.inCombat() || ctx.players.local().tile().distanceTo(nearestCrab) > 4);
     }
 
     @Override
     public void execute() {
         NoobCrabs.status = "Finding crab...";
-        final Npc nearestRock = ctx.npcs.nearest().poll();
+        final Npc nearestRock = ctx.npcs.select().id(NoobCrabs.Rocks).within(NoobCrabs.location.area()).nearest().poll();
 
         if (ctx.players.local().tile().distanceTo(nearestRock) > 1) {
             ctx.movement.step(nearestRock);
@@ -49,12 +55,7 @@ public class Find extends Task<ClientContext> {
                 public Boolean call() throws Exception {
                     return ctx.players.local().inCombat() || nearestRock.inCombat();
                 }
-            }, 200, 2);
-
-            //for scrubs who don't use auto-attack
-            if (ctx.players.local().animation() < 1 && nearestRock.interacting().equals(ctx.players.local())) {
-                nearestRock.interact("Attack");
-            }
+            }, 200, 10);
 
             switch (new Random().nextInt(6)) {
                 case 0:
