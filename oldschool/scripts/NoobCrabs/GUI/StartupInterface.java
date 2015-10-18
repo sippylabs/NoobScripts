@@ -1,7 +1,7 @@
 package oldschool.scripts.NoobCrabs.GUI;
 
-import oldschool.scripts.Common.Utilities.Startup;
 import oldschool.scripts.NoobCrabs.NoobCrabs;
+import oldschool.scripts.common.utilities.Startup;
 import org.powerbot.script.rt4.ClientContext;
 
 import javax.swing.*;
