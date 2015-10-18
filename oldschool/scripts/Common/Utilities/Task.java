@@ -3,6 +3,9 @@ package oldschool.scripts.Common.Utilities;
 import org.powerbot.script.ClientAccessor;
 import org.powerbot.script.ClientContext;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public abstract class Task<C extends ClientContext> extends ClientAccessor<C> {
     public Task(C ctx) {
         super(ctx);
@@ -11,4 +14,8 @@ public abstract class Task<C extends ClientContext> extends ClientAccessor<C> {
     public abstract boolean activate();
 
     public abstract void execute();
+
+    public void log(String msg) {
+        System.out.println("[" + new Timestamp(new Date().getTime()) + "]: " + msg);
+    }
 }
