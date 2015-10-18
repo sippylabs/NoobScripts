@@ -10,7 +10,7 @@ public enum Location {
     ),
     RIGHT(
             new Area(new Tile(2692, 3730, 0), new Tile(2720, 3713, 0)),
-            new Tile[]{new Tile(2720, 3716), new Tile(2724, 3713), new Tile(2729, 3713)}
+            new Tile[]{new Tile(2704, 3720), new Tile(2710, 3718), new Tile(2716, 3717), new Tile(2722, 3714), new Tile(2727, 3714), new Tile(2730, 3713)}
     );
 
     private final Area area;
