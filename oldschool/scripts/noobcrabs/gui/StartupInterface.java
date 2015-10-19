@@ -30,7 +30,7 @@ public class StartupInterface extends JDialog {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-            System.out.println("Failed to set UI look and feel. Rare and pointless exception.");
+            System.out.println("Failed to set UI look and feel.");
         }
 
         buttonStart.addActionListener(new ActionListener() {
