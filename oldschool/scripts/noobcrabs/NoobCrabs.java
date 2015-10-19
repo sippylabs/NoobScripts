@@ -26,9 +26,9 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Script.Manifest(
-        name = "Noob Crabs",
+        name = "[OS] NoobCrabs",
         description = "Start with food in inventory. If not eating, just click Start.",
-        properties = "client = 4"
+        properties = "client = 4;topic=1287402"
 )
 public class NoobCrabs extends PollingScript<ClientContext> implements PaintListener {
     public ArrayList<Task> tasks = new ArrayList<Task>();
