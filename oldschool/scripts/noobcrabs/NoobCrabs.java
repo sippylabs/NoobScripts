@@ -27,7 +27,7 @@ import java.util.Date;
 
 @Script.Manifest(
         name = "[OS] NoobCrabs v1.1",
-        description = "Start with food in inventory. If not eating, just click Start.",
+        description = "Kills rock crabs. Start with food in inventory. If not eating, just click Start.",
         properties = "client = 4;topic=1287402"
 )
 public class NoobCrabs extends PollingScript<ClientContext> implements PaintListener {
