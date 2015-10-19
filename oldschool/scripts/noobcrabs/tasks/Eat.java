@@ -20,13 +20,13 @@ public class Eat extends Task<ClientContext> {
     @Override
     public boolean activate() {
         return ctx.game.loggedIn()
+                && ctx.players.local().health() < ctx.players.local().maxHealth() * eatAtPercentage
                 && !ctx.inventory.select().select(new Filter<Item>() {
             @Override
             public boolean accept(Item gameObject) {
                 return Arrays.asList(gameObject.actions()).contains("Eat");
             }
-        }).isEmpty()
-                && ctx.players.local().health() < ctx.players.local().maxHealth() * eatAtPercentage;
+        }).isEmpty();
     }
 
     @Override

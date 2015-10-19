@@ -20,10 +20,10 @@ public class Find extends Task<ClientContext> {
     public boolean activate() {
         final Npc nearestCrab = ctx.npcs.select().id(Target.CRAB.ids()).within(NoobCrabs.location.area()).nearest().poll();
 
-        return !ctx.npcs.select().id(Target.ROCK.ids()).within(NoobCrabs.location.area()).isEmpty()
+        return (ctx.game.loggedIn() && !NoobCrabs.resetting)
                 && ((ctx.players.local().interacting().valid() && ctx.players.local().interacting().health() < 1)
                 || !ctx.players.local().interacting().valid())
-                && (ctx.game.loggedIn() && !NoobCrabs.resetting)
+                && !ctx.npcs.select().id(Target.ROCK.ids()).within(NoobCrabs.location.area()).isEmpty()
                 && (ctx.npcs.select().select(new Filter<Npc>() {
             @Override
             public boolean accept(Npc npc) {

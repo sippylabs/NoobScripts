@@ -19,8 +19,6 @@ public class Attack extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        nearestCrab = ctx.npcs.select().id(Target.CRAB.ids()).within(NoobCrabs.location.area()).nearest().poll();
-
         return !NoobCrabs.resetting
                 && !ctx.players.local().inMotion()
                 && !ctx.players.local().interacting().valid();
@@ -46,6 +44,8 @@ public class Attack extends Task<ClientContext> {
                 }
             }, 200, 10);
         } else {
+            nearestCrab = ctx.npcs.select().id(Target.CRAB.ids()).within(NoobCrabs.location.area()).nearest().poll();
+
             if (nearestCrab.valid() && nearestCrab.interact("Attack")) {
                 Condition.wait(new Callable<Boolean>() {
                     @Override
