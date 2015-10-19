@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Script.Manifest(
-        name = "[OS] NoobCrabs v1.0",
+        name = "[OS] NoobCrabs v1.1",
         description = "Start with food in inventory. If not eating, just click Start.",
         properties = "client = 4;topic=1287402;hidden=true"
 )
