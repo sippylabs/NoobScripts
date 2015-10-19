@@ -32,7 +32,7 @@ import java.util.Date;
 )
 public class NoobCrabs extends PollingScript<ClientContext> implements PaintListener {
     public ArrayList<Task> tasks = new ArrayList<Task>();
-    public Startup start;
+    public Startup start = new Startup();
 
     public static boolean initialising = true;
     public static boolean resetting = false;
@@ -41,7 +41,6 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void start() {
-        start = new Startup();
         start.atkxp = ctx.skills.experience(Constants.SKILLS_ATTACK);
         start.strxp = ctx.skills.experience(Constants.SKILLS_STRENGTH);
         start.defxp = ctx.skills.experience(Constants.SKILLS_DEFENSE);

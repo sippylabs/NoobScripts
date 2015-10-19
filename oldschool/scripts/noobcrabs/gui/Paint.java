@@ -60,7 +60,14 @@ public class Paint extends ClientAccessor implements PaintListener {
     }
 
     private String getTimeRunning() {
-        long timeRunning = System.currentTimeMillis() - start.startTime;
+        long timeRunning = 1;
+        try {
+            if (start.startTime > 0) {
+                timeRunning = System.currentTimeMillis() - start.startTime;
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Ignore ...");
+        }
 
         int hoursRunning = (int) timeRunning / 3600000;
         int minutesRunning = (int) timeRunning / 60000 - hoursRunning * 60;
