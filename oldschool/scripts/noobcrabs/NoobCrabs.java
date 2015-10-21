@@ -57,7 +57,12 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
                     ? Location.RIGHT : Location.LEFT;
         }
 
-        tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx), new Attack(ctx, start.killSteal), new Eat(ctx, start.eatAtPercentage)));
+        tasks.addAll(Arrays.asList(
+                        new Find(ctx),
+                        new Reset(ctx),
+                        new Attack(ctx, start.killSteal),
+                        new Eat(ctx, start.eatAtPercentage))
+        );
 
         StartupInterface dialog = new StartupInterface(ctx, start);
         dialog.pack();
