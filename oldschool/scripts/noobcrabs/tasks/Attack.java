@@ -8,6 +8,7 @@ import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
 
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 public class Attack extends Task<ClientContext> {
@@ -36,8 +37,11 @@ public class Attack extends Task<ClientContext> {
         }).isEmpty()) {
             final Npc nearestNpc = ctx.npcs.nearest().poll();
 
-            if (!nearestNpc.interact("Dismiss"))
+            if (Arrays.asList(nearestNpc.actions()).contains("Dismiss")) {
+                nearestNpc.interact("Dismiss");
+            } else {
                 nearestNpc.interact("Attack");
+            }
 
             Condition.wait(new Callable<Boolean>() {
                 @Override
