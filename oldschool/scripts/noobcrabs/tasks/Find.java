@@ -53,6 +53,7 @@ public class Find extends Task<ClientContext> {
             Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
+                    log(ctx.players.local().interacting().valid() + " crab valid");
                     return ctx.players.local().inCombat() || nearestRock.inCombat();
                 }
             }, 200, 10);

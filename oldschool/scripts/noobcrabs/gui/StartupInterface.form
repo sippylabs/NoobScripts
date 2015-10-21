@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="oldschool.scripts.noobcrabs.gui.StartupInterface">
   <grid id="cbd77" binding="contentPane" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="48" y="54" width="208" height="297"/>
+      <xy x="48" y="54" width="220" height="297"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -31,6 +31,10 @@
                   <text value="Label"/>
                 </properties>
               </component>
+              <component id="cb409" class="javax.swing.JSlider" binding="healthPercentSlider">
+                <constraints border-constraint="South"/>
+                <properties/>
+              </component>
             </children>
           </grid>
           <grid id="2bd7c" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -40,10 +44,34 @@
               <size top="5" left="5" bottom="5" right="5"/>
             </border>
             <children>
-              <component id="cb409" class="javax.swing.JSlider" binding="healthPercentSlider">
-                <constraints border-constraint="Center"/>
-                <properties/>
+              <component id="b2f5d" class="javax.swing.JLabel">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <text value="KS other people?"/>
+                </properties>
               </component>
+              <grid id="46c27" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+                <constraints border-constraint="South"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="996a2" class="javax.swing.JRadioButton" binding="doKillSteal">
+                    <constraints/>
+                    <properties>
+                      <horizontalAlignment value="2"/>
+                      <text value="Yes, KS"/>
+                    </properties>
+                  </component>
+                  <component id="8b45f" class="javax.swing.JRadioButton" binding="dontKillSteal">
+                    <constraints/>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <selected value="true"/>
+                      <text value="No, don't KS"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
             </children>
           </grid>
           <grid id="9538f" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -78,4 +106,10 @@
       </grid>
     </children>
   </grid>
+  <buttonGroups>
+    <group name="buttonGroup1">
+      <member id="8b45f"/>
+      <member id="996a2"/>
+    </group>
+  </buttonGroups>
 </form>

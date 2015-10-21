@@ -16,6 +16,8 @@ public class StartupInterface extends JDialog {
     private JButton buttonCancel;
     private JSlider healthPercentSlider;
     private JLabel healthPercent;
+    private JRadioButton doKillSteal;
+    private JRadioButton dontKillSteal;
     private ClientContext ctx;
     private Startup start;
 
@@ -67,6 +69,7 @@ public class StartupInterface extends JDialog {
     }
 
     private void onOK() {
+        start.killSteal = doKillSteal.isSelected();
         start.startTime = System.currentTimeMillis();
         start.eatAtPercentage = healthPercentSlider.getValue() / 100;
         NoobCrabs.initialising = false;
@@ -111,25 +114,44 @@ public class StartupInterface extends JDialog {
         healthPercent = new JLabel();
         healthPercent.setText("Label");
         panel2.add(healthPercent, BorderLayout.CENTER);
+        healthPercentSlider = new JSlider();
+        panel2.add(healthPercentSlider, BorderLayout.SOUTH);
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new BorderLayout(0, 0));
         panel1.add(panel3, BorderLayout.CENTER);
         panel3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
-        healthPercentSlider = new JSlider();
-        panel3.add(healthPercentSlider, BorderLayout.CENTER);
+        final JLabel label2 = new JLabel();
+        label2.setText("KS other people?");
+        panel3.add(label2, BorderLayout.WEST);
         final JPanel panel4 = new JPanel();
-        panel4.setLayout(new BorderLayout(0, 0));
-        panel1.add(panel4, BorderLayout.SOUTH);
-        panel4.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
+        panel4.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        panel3.add(panel4, BorderLayout.SOUTH);
+        doKillSteal = new JRadioButton();
+        doKillSteal.setHorizontalAlignment(2);
+        doKillSteal.setText("Yes, KS");
+        panel4.add(doKillSteal);
+        dontKillSteal = new JRadioButton();
+        dontKillSteal.setHorizontalAlignment(0);
+        dontKillSteal.setSelected(true);
+        dontKillSteal.setText("No, don't KS");
+        panel4.add(dontKillSteal);
         final JPanel panel5 = new JPanel();
-        panel5.setLayout(new BorderLayout(5, 0));
-        panel4.add(panel5, BorderLayout.EAST);
+        panel5.setLayout(new BorderLayout(0, 0));
+        panel1.add(panel5, BorderLayout.SOUTH);
+        panel5.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
+        final JPanel panel6 = new JPanel();
+        panel6.setLayout(new BorderLayout(5, 0));
+        panel5.add(panel6, BorderLayout.EAST);
         buttonCancel = new JButton();
         buttonCancel.setText("Cancel");
-        panel5.add(buttonCancel, BorderLayout.EAST);
+        panel6.add(buttonCancel, BorderLayout.EAST);
         buttonStart = new JButton();
         buttonStart.setText("Start");
-        panel5.add(buttonStart, BorderLayout.WEST);
+        panel6.add(buttonStart, BorderLayout.WEST);
+        ButtonGroup buttonGroup;
+        buttonGroup = new ButtonGroup();
+        buttonGroup.add(dontKillSteal);
+        buttonGroup.add(doKillSteal);
     }
 
     /**

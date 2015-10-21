@@ -12,9 +12,11 @@ import java.util.concurrent.Callable;
 
 public class Attack extends Task<ClientContext> {
     private Npc nearestCrab;
+    private boolean killSteal;
 
-    public Attack(ClientContext ctx) {
+    public Attack(ClientContext ctx, boolean killSteal) {
         super(ctx);
+        this.killSteal = killSteal;
     }
 
     @Override
@@ -44,7 +46,13 @@ public class Attack extends Task<ClientContext> {
                 }
             }, 200, 10);
         } else {
-            nearestCrab = ctx.npcs.select().id(Target.CRAB.ids()).within(NoobCrabs.location.area()).nearest().poll();
+            nearestCrab = ctx.npcs.select().id(Target.CRAB.ids()).within(NoobCrabs.location.area()).select(new Filter<Npc>() {
+                @Override
+                public boolean accept(Npc npc) {
+                    //if npc not in combat OR npc not interacting OR npcs target not interacting with npc
+                    return killSteal || !npc.inCombat() || !npc.interacting().valid() || !npc.interacting().interacting().tile().equals(npc.tile());
+                }
+            }).nearest().poll();
 
             if (nearestCrab.valid() && nearestCrab.interact("Attack")) {
                 Condition.wait(new Callable<Boolean>() {

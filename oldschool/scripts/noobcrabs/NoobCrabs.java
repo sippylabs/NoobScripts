@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Script.Manifest(
-        name = "[OS] NoobCrabs v1.1",
+        name = "[OS] NoobCrabs v1.11",
         description = "Kills rock crabs. Start with food in inventory. If not eating, just click Start.",
         properties = "client = 4;topic=1287402"
 )
@@ -57,7 +57,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
                     ? Location.RIGHT : Location.LEFT;
         }
 
-        tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx), new Attack(ctx), new Eat(ctx, start.eatAtPercentage)));
+        tasks.addAll(Arrays.asList(new Find(ctx), new Reset(ctx), new Attack(ctx, start.killSteal), new Eat(ctx, start.eatAtPercentage)));
 
         StartupInterface dialog = new StartupInterface(ctx, start);
         dialog.pack();

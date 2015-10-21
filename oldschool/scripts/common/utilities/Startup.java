@@ -7,6 +7,7 @@ public class Startup {
     public int strxp;
     public int defxp;
     public int hpxp;
+    public boolean killSteal;
 
     public Startup() {
         startTime = 0;
@@ -15,5 +16,6 @@ public class Startup {
         strxp = 0;
         defxp = 0;
         hpxp = 0;
+        killSteal = false;
     }
 }
