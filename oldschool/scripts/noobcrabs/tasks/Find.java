@@ -35,12 +35,21 @@ public class Find extends Task<ClientContext> {
 
     @Override
     public void execute() {
-        boolean attacking = false;
         NoobCrabs.status = "Finding crab...";
-        final Npc nearestRock = ctx.npcs.select().id(Target.ROCK.ids()).within(NoobCrabs.location.area()).nearest().poll();
+
+        final Npc nearestRock = ctx.npcs.select().select(new Filter<Npc>() {
+            @Override
+            public boolean accept(Npc npc) {
+                return !npc.tile().equals(ctx.players.local().interacting().tile());
+            }
+        }).id(Target.ROCK.ids()).within(NoobCrabs.location.area()).nearest().poll();
+
+        if (!ctx.movement.running() && ctx.movement.energyLevel() > 50)
+            ctx.movement.running(true);
 
         if (ctx.players.local().tile().distanceTo(nearestRock) > 1) {
-            ctx.movement.step(nearestRock);
+            boolean rockInView = nearestRock.tile().matrix(ctx).inViewport()
+                    ? nearestRock.tile().matrix(ctx).interact("Walk here") : ctx.movement.step(nearestRock);
 
             Condition.wait(new Callable<Boolean>() {
                 @Override
@@ -48,15 +57,6 @@ public class Find extends Task<ClientContext> {
                     return ctx.players.local().tile().distanceTo(ctx.movement.destination()) < 4;
                 }
             });
-        } else if (ctx.players.local().tile().distanceTo(nearestRock) <= 1) {
-            //wait for the crab to wake the fuck up
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    log(ctx.players.local().interacting().valid() + " crab valid");
-                    return ctx.players.local().inCombat() || nearestRock.inCombat();
-                }
-            }, 200, 10);
         }
 
         switch (Random.nextInt(0, 6)) {
