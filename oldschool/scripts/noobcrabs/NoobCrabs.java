@@ -36,6 +36,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     public static boolean initialising = true;
     public static boolean resetting = false;
+    public static boolean hopping = false;
     public static String status = "Initialising...";
     public static Location location;
 
@@ -58,10 +59,12 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
         }
 
         tasks.addAll(Arrays.asList(
-                        new Find(ctx),
-                        new Reset(ctx),
-                        new Attack(ctx, start.killSteal),
-                        new Eat(ctx, start.eatAtPercentage))
+                        new Find(ctx)
+                        , new Reset(ctx)
+                        , new Attack(ctx, start.killSteal)
+                        , new Eat(ctx, start.eatAtPercentage)
+                        /*,new Hop(ctx)*/
+                )
         );
 
         StartupInterface dialog = new StartupInterface(ctx, start);
@@ -71,7 +74,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void poll() {
-        if (!initialising)
+        if (!initialising && !hopping)
             for (Task task : tasks)
                 if (task.activate())
                     task.execute();
