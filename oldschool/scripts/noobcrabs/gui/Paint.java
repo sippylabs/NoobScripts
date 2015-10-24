@@ -1,6 +1,6 @@
 package oldschool.scripts.noobcrabs.gui;
 
-import oldschool.scripts.common.utilities.Startup;
+import oldschool.scripts.noobcrabs.Startup;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.rt4.ClientAccessor;
 import org.powerbot.script.rt4.ClientContext;

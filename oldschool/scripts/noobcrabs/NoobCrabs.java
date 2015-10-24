@@ -1,7 +1,6 @@
 package oldschool.scripts.noobcrabs;
 
-import oldschool.scripts.common.utilities.Startup;
-import oldschool.scripts.common.utilities.Task;
+import oldschool.scripts.common.Task;
 import oldschool.scripts.noobcrabs.enums.Location;
 import oldschool.scripts.noobcrabs.gui.Paint;
 import oldschool.scripts.noobcrabs.gui.StartupInterface;
@@ -74,7 +73,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void poll() {
-        if (!initialising && !hopping)
+        if (!initialising)
             for (Task task : tasks)
                 if (task.activate())
                     task.execute();

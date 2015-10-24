@@ -1,6 +1,6 @@
 package oldschool.scripts.noobcrabs.tasks;
 
-import oldschool.scripts.common.utilities.Task;
+import oldschool.scripts.common.Task;
 import oldschool.scripts.noobcrabs.NoobCrabs;
 import oldschool.scripts.noobcrabs.enums.Location;
 import oldschool.scripts.noobcrabs.enums.Target;
