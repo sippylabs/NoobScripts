@@ -1,4 +1,4 @@
-package oldschool.scripts.common.utilities;
+package oldschool.scripts.common;
 
 import org.powerbot.script.ClientAccessor;
 import org.powerbot.script.ClientContext;
