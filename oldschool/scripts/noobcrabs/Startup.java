@@ -1,4 +1,4 @@
-package oldschool.scripts.common.utilities;
+package oldschool.scripts.noobcrabs;
 
 public class Startup {
     public long startTime;
