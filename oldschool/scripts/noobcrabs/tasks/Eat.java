@@ -5,6 +5,7 @@ import oldschool.scripts.noobcrabs.NoobCrabs;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
+import org.powerbot.script.rt4.Game;
 import org.powerbot.script.rt4.Item;
 
 import java.util.Arrays;
@@ -33,16 +34,18 @@ public class Eat extends Task<ClientContext> {
     public void execute() {
         NoobCrabs.status = "Nomming ...";
 
-        Item foodz = ctx.inventory.select(new Filter<Item>() {
-            @Override
-            public boolean accept(Item gameObject) {
-                return Arrays.asList(gameObject.actions()).contains("Eat");
-            }
-        }).first().poll();
+        if (ctx.game.tab(Game.Tab.INVENTORY)) {
+            Item foodz = ctx.inventory.select(new Filter<Item>() {
+                @Override
+                public boolean accept(Item gameObject) {
+                    return Arrays.asList(gameObject.actions()).contains("Eat");
+                }
+            }).first().poll();
 
-        if (foodz.valid())
-            foodz.interact("Eat");
+            if (foodz.valid())
+                foodz.interact("Eat");
 
-        Condition.sleep();
+            Condition.sleep();
+        }
     }
 }
