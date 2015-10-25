@@ -30,7 +30,8 @@ public class Find extends Task<ClientContext> {
                 return npc.interacting().name().equals(ctx.players.local().name());
             }
         }).isEmpty())
-                && (nearestCrab.inCombat() || ctx.players.local().tile().distanceTo(nearestCrab) > 4);
+                && (nearestCrab.inCombat() ||
+                ctx.players.local().tile().distanceTo(nearestCrab) > ctx.players.local().tile().distanceTo(ctx.npcs.nearest().poll()));
     }
 
     @Override
