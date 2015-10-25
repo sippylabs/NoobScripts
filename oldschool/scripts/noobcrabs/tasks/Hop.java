@@ -15,30 +15,38 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 public class Hop extends Task<ClientContext> {
+    private boolean enabled;
+
     final private ArrayList<World> worlds = new ArrayList<World>();
     final private ArrayList<Integer> worldsTried = new ArrayList<Integer>();
     final private Widget worldHop = ctx.widgets.widget(69);
     final private Component btnWorldSwitch = ctx.widgets.widget(182).component(5);
     final private Component switchHighRisk = ctx.widgets.widget(219).component(0).component(2);
 
-    private boolean activate = true;
     private int currentWorldId = 0;
     private Component[] worldList;
-    private int resetLimit = 15;
+    private int hopLimit;
+    private int maxPlayers;
 
-    public Hop(final ClientContext ctx) {
+    public Hop(final ClientContext ctx, final boolean enabled, final int hopLimit, final int maxPlayers) {
         super(ctx);
+
+        this.enabled = enabled;
+        this.hopLimit = hopLimit;
+        this.maxPlayers = maxPlayers;
     }
 
     @Override
     public boolean activate() {
-        return ctx.game.loggedIn() &&
-                activate;
+        return ctx.game.loggedIn() && enabled && !ctx.players.local().interacting().valid()
+                && (ctx.players.select().within(NoobCrabs.location.area()).size() >= maxPlayers
+                || !ctx.objects.select(50).id(6).isEmpty());
     }
 
     @Override
     public void execute() {
         NoobCrabs.hopping = true;
+        NoobCrabs.status = "Hopping worlds...";
 
         if (ctx.game.tab(Game.Tab.LOGOUT)) {
             if (worldHop.component(7).visible()) {
@@ -90,21 +98,20 @@ public class Hop extends Task<ClientContext> {
                             if (switchHighRisk.visible()) {
                                 switchHighRisk.click();
                             }
-                        } else {
                             Condition.sleep();
+                            NoobCrabs.hopping = false;
+                        } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
+                            ctx.input.scroll(true);
+                        } else {
+                            ctx.input.scroll(false);
                         }
-                    } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
-                        ctx.input.scroll(true);
-                    } else {
-                        ctx.input.scroll(false);
                     }
                 }
             } else {
                 btnWorldSwitch.click(true);
             }
+            Condition.sleep(2000);
         }
-
-        Condition.sleep(2000);
     }
 
     public void parseWorlds() {
@@ -143,7 +150,7 @@ public class Hop extends Task<ClientContext> {
     }
 
     public World nextValidHop() {
-        if (worldsTried.size() > resetLimit) {
+        if (worldsTried.size() > hopLimit) {
             worldsTried.clear();
         }
 
