@@ -2,15 +2,19 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="oldschool.scripts.noobcrabs.gui.StartupInterface">
   <grid id="cbd77" binding="contentPane" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="48" y="54" width="220" height="297"/>
+      <xy x="48" y="54" width="469" height="297"/>
     </constraints>
-    <properties/>
+    <properties>
+      <minimumSize width="420" height="250"/>
+      <opaque value="false"/>
+      <preferredSize width="420" height="250"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="e3588" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="West"/>
         <properties/>
-        <border type="none"/>
+        <border type="etched" title="Basic Options"/>
         <children>
           <grid id="fa3c6" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints border-constraint="North"/>
@@ -44,26 +48,20 @@
               <size top="5" left="5" bottom="5" right="5"/>
             </border>
             <children>
-              <component id="b2f5d" class="javax.swing.JLabel">
-                <constraints border-constraint="West"/>
-                <properties>
-                  <text value="KS other people?"/>
-                </properties>
-              </component>
-              <grid id="46c27" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
-                <constraints border-constraint="South"/>
+              <grid id="46c27" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="Center"/>
                 <properties/>
-                <border type="none"/>
+                <border type="none" title="KS other players?"/>
                 <children>
                   <component id="996a2" class="javax.swing.JRadioButton" binding="doKillSteal">
-                    <constraints/>
+                    <constraints border-constraint="West"/>
                     <properties>
                       <horizontalAlignment value="2"/>
                       <text value="Yes, KS"/>
                     </properties>
                   </component>
                   <component id="8b45f" class="javax.swing.JRadioButton" binding="dontKillSteal">
-                    <constraints/>
+                    <constraints border-constraint="Center"/>
                     <properties>
                       <horizontalAlignment value="0"/>
                       <selected value="true"/>
@@ -74,32 +72,147 @@
               </grid>
             </children>
           </grid>
-          <grid id="9538f" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <grid id="33565" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints border-constraint="South"/>
             <properties/>
             <border type="empty">
               <size top="5" left="5" bottom="5" right="5"/>
             </border>
             <children>
-              <grid id="284bd" layout-manager="BorderLayout" hgap="5" vgap="0">
-                <constraints border-constraint="East"/>
+              <grid id="f7569" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="North"/>
                 <properties/>
-                <border type="none"/>
+                <border type="none" title="Avoid hobgoblins?"/>
                 <children>
-                  <component id="5723f" class="javax.swing.JButton" binding="buttonCancel">
-                    <constraints border-constraint="East"/>
-                    <properties>
-                      <text value="Cancel"/>
-                    </properties>
-                  </component>
-                  <component id="e7465" class="javax.swing.JButton" binding="buttonStart">
+                  <component id="1283f" class="javax.swing.JRadioButton" binding="avoidHobgoblins">
                     <constraints border-constraint="West"/>
                     <properties>
-                      <text value="Start"/>
+                      <text value="Yes"/>
+                    </properties>
+                  </component>
+                  <component id="d8d7" class="javax.swing.JRadioButton" binding="dontAvoidHobgoblins">
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <selected value="true"/>
+                      <text value="No"/>
                     </properties>
                   </component>
                 </children>
               </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="2fd8d" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="etched" title="Advanced Options"/>
+        <children>
+          <grid id="bbe94" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="North"/>
+            <properties/>
+            <border type="empty">
+              <title-color color="-4473925"/>
+              <size top="0" left="0" bottom="0" right="0"/>
+            </border>
+            <children>
+              <grid id="61d50" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="Center"/>
+                <properties/>
+                <border type="none" title="World Hopping">
+                  <size top="5" left="5" bottom="5" right="5"/>
+                </border>
+                <children>
+                  <grid id="19358" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <enabled value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="ad52f" class="javax.swing.JLabel">
+                        <constraints border-constraint="West"/>
+                        <properties>
+                          <text value="Max players in area:"/>
+                        </properties>
+                      </component>
+                      <component id="77b69" class="javax.swing.JSpinner" binding="maxPlayersInArea">
+                        <constraints border-constraint="East"/>
+                        <properties>
+                          <autoscrolls value="true"/>
+                          <enabled value="false"/>
+                          <minimumSize width="40" height="26"/>
+                          <preferredSize width="40" height="26"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="128c1" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints border-constraint="South"/>
+                    <properties>
+                      <enabled value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="465c5" class="javax.swing.JLabel">
+                        <constraints border-constraint="West"/>
+                        <properties>
+                          <text value="Num worlds to hop:"/>
+                        </properties>
+                      </component>
+                      <component id="3a0f" class="javax.swing.JSpinner" binding="worldsToHop">
+                        <constraints border-constraint="East"/>
+                        <properties>
+                          <enabled value="false"/>
+                          <minimumSize width="40" height="26"/>
+                          <preferredSize width="40" height="26"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="6750d" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints border-constraint="North"/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="175ea" class="javax.swing.JCheckBox" binding="enableWorldhopping">
+                        <constraints border-constraint="Center"/>
+                        <properties>
+                          <text value="Enable"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="9538f" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="empty">
+          <size top="5" left="5" bottom="5" right="5"/>
+        </border>
+        <children>
+          <grid id="284bd" layout-manager="BorderLayout" hgap="5" vgap="0">
+            <constraints border-constraint="East"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="5723f" class="javax.swing.JButton" binding="buttonCancel">
+                <constraints border-constraint="East"/>
+                <properties>
+                  <text value="Cancel"/>
+                </properties>
+              </component>
+              <component id="e7465" class="javax.swing.JButton" binding="buttonStart">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <text value="Start"/>
+                </properties>
+              </component>
             </children>
           </grid>
         </children>
@@ -110,6 +223,10 @@
     <group name="buttonGroup1">
       <member id="8b45f"/>
       <member id="996a2"/>
+    </group>
+    <group name="buttonGroup2">
+      <member id="1283f"/>
+      <member id="d8d7"/>
     </group>
   </buttonGroups>
 </form>
