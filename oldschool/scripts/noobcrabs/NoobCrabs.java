@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Script.Manifest(
-        name = "[OS] NoobCrabs v1.11",
+        name = "[OS] NoobCrabs v1.2",
         description = "Kills rock crabs. Start with food in inventory. If not eating, just click Start.",
         properties = "client = 4;topic=1287402"
 )
