@@ -72,6 +72,7 @@ public class Hop extends Task<ClientContext> {
 
                     World next = nextValidHop();
 
+                    ctx.input.move(worldHop.component(7).centerPoint());
                     if (worldHop.component(7).boundingRect().contains(next.component.boundingRect())) {
                         if (!worldsTried.contains(currentWorldId)) {
                             worldsTried.add(currentWorldId);
@@ -93,10 +94,8 @@ public class Hop extends Task<ClientContext> {
                             Condition.sleep();
                         }
                     } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
-                        ctx.input.move(worldHop.component(7).centerPoint());
                         ctx.input.scroll(true);
                     } else {
-                        ctx.input.move(worldHop.component(7).centerPoint());
                         ctx.input.scroll(false);
                     }
                 }
