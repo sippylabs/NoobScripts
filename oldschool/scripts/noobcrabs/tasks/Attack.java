@@ -29,6 +29,8 @@ public class Attack extends Task<ClientContext> {
 
     @Override
     public void execute() {
+        NoobCrabs.status = "Stabbing crab...";
+
         if (!ctx.npcs.select().select(new Filter<Npc>() {
             @Override
             public boolean accept(Npc npc) {
