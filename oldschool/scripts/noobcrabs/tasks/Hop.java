@@ -38,7 +38,8 @@ public class Hop extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        return ctx.game.loggedIn() && enabled && !ctx.players.local().interacting().valid()
+        return (ctx.game.loggedIn() && enabled && !NoobCrabs.resetting)
+                && (!ctx.players.local().interacting().valid() || !ctx.players.local().inCombat())
                 && (ctx.players.select().within(NoobCrabs.location.area()).size() >= maxPlayers
                 || !ctx.objects.select(50).id(6).isEmpty());
     }

@@ -22,7 +22,7 @@ public class Attack extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        return !NoobCrabs.resetting && !NoobCrabs.hopping
+        return (ctx.game.loggedIn() && !NoobCrabs.resetting && !NoobCrabs.hopping)
                 && !ctx.players.local().inMotion()
                 && !ctx.players.local().interacting().valid();
     }
