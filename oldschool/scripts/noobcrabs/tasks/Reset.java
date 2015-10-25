@@ -40,7 +40,7 @@ public class Reset extends Task<ClientContext> {
 
         TilePath reset = ctx.movement.newTilePath(NoobCrabs.location.resetPath());
 
-        if (NoobCrabs.location == Location.LEFT) {
+        if (NoobCrabs.location == Location.LEFT || NoobCrabs.location == Location.LEFTPURE) {
             if (!walkBack) {
                 if (ctx.players.local().tile().equals(reset.end())) {
                     walkBack = true;
@@ -48,7 +48,7 @@ public class Reset extends Task<ClientContext> {
             } else {
                 reset = reset.reverse();
 
-                if (ctx.players.local().tile().equals(reset.end())) {
+                if (NoobCrabs.location.area().contains(ctx.players.local())) {
                     NoobCrabs.resetting = false;
                     walkBack = false;
                 } else reset.traverse();
