@@ -38,16 +38,18 @@ public class Hop extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        return (ctx.game.loggedIn() && enabled && !NoobCrabs.resetting)
+        return NoobCrabs.hopping
+                || ((ctx.game.loggedIn() && enabled && !NoobCrabs.resetting)
                 && (!ctx.players.local().interacting().valid() || !ctx.players.local().inCombat())
                 && (ctx.players.select().within(NoobCrabs.location.area()).size() >= maxPlayers
-                || !ctx.objects.select(50).id(6).isEmpty());
+                || !ctx.objects.select(50).id(6).isEmpty()));
     }
 
     @Override
     public void execute() {
         NoobCrabs.hopping = true;
         NoobCrabs.status = "Hopping worlds...";
+        log("executor");
 
         if (ctx.game.tab(Game.Tab.LOGOUT)) {
             if (worldHop.component(7).visible()) {
@@ -99,13 +101,14 @@ public class Hop extends Task<ClientContext> {
                             if (switchHighRisk.visible()) {
                                 switchHighRisk.click();
                             }
-                            Condition.sleep();
-                            NoobCrabs.hopping = false;
-                        } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
-                            ctx.input.scroll(true);
-                        } else {
-                            ctx.input.scroll(false);
                         }
+
+                        Condition.sleep();
+                        NoobCrabs.hopping = false;
+                    } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
+                        ctx.input.scroll(true);
+                    } else {
+                        ctx.input.scroll(false);
                     }
                 }
             } else {

@@ -31,7 +31,7 @@ public class Find extends Task<ClientContext> {
             }
         }).isEmpty())
                 && (nearestCrab.inCombat() ||
-                ctx.players.local().tile().distanceTo(nearestCrab) > ctx.players.local().tile().distanceTo(ctx.npcs.nearest().poll()));
+                ctx.players.local().tile().distanceTo(nearestCrab) > ctx.players.local().tile().distanceTo(ctx.npcs.select().id(Target.ROCK.ids()).nearest().poll()));
     }
 
     @Override
