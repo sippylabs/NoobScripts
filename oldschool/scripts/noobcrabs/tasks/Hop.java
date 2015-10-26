@@ -42,8 +42,8 @@ public class Hop extends Task<ClientContext> {
     public boolean activate() {
         return NoobCrabs.hopping
                 || ((ctx.game.loggedIn() && enabled && !NoobCrabs.resetting)
-                && (!ctx.players.local().interacting().valid() || !ctx.players.local().inCombat())
-                && (ctx.players.select().within(NoobCrabs.location.area()).size() >= maxPlayers
+                && (!ctx.players.local().interacting().valid() && !ctx.players.local().inCombat())
+                && (ctx.players.select().within(NoobCrabs.location.area()).size() > maxPlayers
                 || !ctx.objects.select(50).id(6).isEmpty()));
     }
 
@@ -104,8 +104,18 @@ public class Hop extends Task<ClientContext> {
                             }
                         }
 
-                        Condition.sleep();
-                        NoobCrabs.hopping = false;
+                        boolean success = Condition.wait(new Callable<Boolean>() {
+                            @Override
+                            public Boolean call() throws Exception {
+                                final String newWorldText = ctx.widgets.widget(429).component(1).text();
+                                final int newWorld = Integer.parseInt(newWorldText.substring(
+                                        Math.max(newWorldText.length() - 2, 0)));
+                                return newWorld != currentWorldId;
+                            }
+                        }, 500, 8);
+
+                        if (success)
+                            NoobCrabs.hopping = false;
                     } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
                         ctx.input.scroll(true);
                     } else {
