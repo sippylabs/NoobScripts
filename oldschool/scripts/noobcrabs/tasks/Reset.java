@@ -30,7 +30,7 @@ public class Reset extends Task<ClientContext> {
                 && !ctx.players.local().inMotion()
                 && nearbyRock.valid()
                 && ctx.players.local().tile().distanceTo(nearbyRock) <= 1
-                && ((!ctx.players.local().inCombat() && !nearbyRock.inCombat()) || !nearbyRock.interacting().valid()));
+                && ((!ctx.players.local().inCombat() && !nearbyRock.inCombat()) || (!nearbyRock.interacting().valid() && nearbyRock.animation() == -1)));
     }
 
     @Override
