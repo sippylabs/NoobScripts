@@ -36,6 +36,8 @@ public class Hop extends Task<ClientContext> {
         this.maxPlayers = maxPlayers;
     }
 
+    //REFACTOR THIS SHIT
+
     @Override
     public boolean activate() {
         return NoobCrabs.hopping
@@ -49,7 +51,6 @@ public class Hop extends Task<ClientContext> {
     public void execute() {
         NoobCrabs.hopping = true;
         NoobCrabs.status = "Hopping worlds...";
-        log("executor");
 
         if (ctx.game.tab(Game.Tab.LOGOUT)) {
             if (worldHop.component(7).visible()) {
