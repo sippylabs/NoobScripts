@@ -55,8 +55,10 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void repaint(Graphics g) {
-        Paint paint = new Paint(ctx, start, status);
-        paint.repaint(g);
+        if (!initialising) {
+            Paint paint = new Paint(ctx, start, status);
+            paint.repaint(g);
+        }
     }
 
     private void screenShot() {
