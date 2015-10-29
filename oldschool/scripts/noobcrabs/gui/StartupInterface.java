@@ -104,7 +104,7 @@ public class StartupInterface extends JDialog {
     private void onOK() {
         start.killSteal = doKillSteal.isSelected();
         start.startTime = System.currentTimeMillis();
-        start.eatAtPercentage = healthPercentSlider.getValue() / 100;
+        start.eatAtPercentage = healthPercentSlider.getValue() / 100.0f;
         start.pure = avoidHobgoblins.isSelected();
 
         start.hoppingEnabled = enableWorldhopping.isSelected();
