@@ -5,6 +5,7 @@ import oldschool.scripts.noobcrabs.NoobCrabs;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
+import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Game;
 import org.powerbot.script.rt4.Item;
 
@@ -21,7 +22,7 @@ public class Eat extends Task<ClientContext> {
     @Override
     public boolean activate() {
         return ctx.game.loggedIn()
-                && ctx.players.local().health() < ctx.players.local().maxHealth() * eatAtPercentage
+                && ctx.skills.level(Constants.SKILLS_HITPOINTS) < ctx.skills.realLevel(Constants.SKILLS_HITPOINTS) * eatAtPercentage
                 && !ctx.inventory.select().select(new Filter<Item>() {
             @Override
             public boolean accept(Item gameObject) {
@@ -35,7 +36,7 @@ public class Eat extends Task<ClientContext> {
         NoobCrabs.status = "Nomming ...";
 
         if (ctx.game.tab(Game.Tab.INVENTORY)) {
-            Item foodz = ctx.inventory.select(new Filter<Item>() {
+            final Item foodz = ctx.inventory.select(new Filter<Item>() {
                 @Override
                 public boolean accept(Item gameObject) {
                     return Arrays.asList(gameObject.actions()).contains("Eat");
