@@ -10,6 +10,7 @@ import org.powerbot.script.rt4.GameObject;
 import org.powerbot.script.rt4.Npc;
 import org.powerbot.script.rt4.TilePath;
 
+import java.nio.BufferUnderflowException;
 import java.util.concurrent.Callable;
 
 public class Reset extends Task<ClientContext> {
@@ -40,7 +41,7 @@ public class Reset extends Task<ClientContext> {
 
         TilePath reset = ctx.movement.newTilePath(NoobCrabs.location.resetPath());
 
-        if (NoobCrabs.location == Location.LEFT || NoobCrabs.location == Location.LEFTPURE) {
+        if (!NoobCrabs.location.equals(Location.RIGHT)) {
             if (!walkBack) {
                 if (ctx.players.local().tile().equals(reset.end())) {
                     walkBack = true;
@@ -53,9 +54,19 @@ public class Reset extends Task<ClientContext> {
                     walkBack = false;
                 } else reset.traverse();
             }
-        } else if (NoobCrabs.location == Location.RIGHT) {
-            final GameObject caveEntrance = ctx.objects.select().id(resetCaveId).poll();
-            final GameObject caveExit = ctx.objects.select().id(resetCaveExitId).poll();
+        } else {
+            GameObject caveEntrancePoll = ctx.objects.nil();
+            GameObject caveExitPoll = ctx.objects.nil();
+
+            try {
+                caveEntrancePoll = ctx.objects.select(20).id(resetCaveId).poll();
+                caveExitPoll = ctx.objects.select(5).id(resetCaveExitId).poll();
+            } catch (BufferUnderflowException e) {
+                log(e.getMessage());
+            }
+
+            final GameObject caveEntrance = caveEntrancePoll;
+            final GameObject caveExit = caveExitPoll;
 
             if (!walkBack && caveEntrance.valid()) {
                 if (ctx.players.local().tile().equals(reset.end())) {
