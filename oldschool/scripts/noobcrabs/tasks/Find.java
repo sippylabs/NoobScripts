@@ -54,15 +54,16 @@ public class Find extends Task<ClientContext> {
             } else {
                 ctx.movement.step(nearestRock);
             }
-        }
 
-        Condition.wait(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return ctx.players.local().tile().distanceTo(ctx.movement.destination()) < 4;
+            if (ctx.players.local().inMotion()) {
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return ctx.players.local().tile().distanceTo(ctx.movement.destination()) < 4;
+                    }
+                });
             }
-        });
-
+        }
 
         switch (Random.nextInt(0, 6)) {
             case 0:

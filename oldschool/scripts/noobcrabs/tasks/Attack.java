@@ -60,7 +60,7 @@ public class Attack extends Task<ClientContext> {
                 }
             }).nearest().poll();
 
-            if (nearestCrab.valid() && nearestCrab.interact("Attack")) {
+            if (nearestCrab.valid() && nearestCrab.health() > 0 && nearestCrab.interact("Attack")) {
                 Condition.wait(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
