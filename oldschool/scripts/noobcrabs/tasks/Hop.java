@@ -42,7 +42,6 @@ public class Hop extends Task<ClientContext> {
     public boolean activate() {
         return NoobCrabs.hopping
                 || ((ctx.game.loggedIn() && enabled && !NoobCrabs.resetting)
-                && (!ctx.players.local().interacting().valid() && !ctx.players.local().inCombat())
                 && (ctx.players.select().within(NoobCrabs.location.area()).size() > maxPlayers
                 || !ctx.objects.select(50).id(6).isEmpty()));
     }
@@ -52,80 +51,82 @@ public class Hop extends Task<ClientContext> {
         NoobCrabs.hopping = true;
         NoobCrabs.status = "Hopping worlds...";
 
-        if (ctx.game.tab(Game.Tab.LOGOUT)) {
-            if (worldHop.component(7).visible()) {
-                final String currentWorldText = ctx.widgets.widget(429).component(1).text();
-                currentWorldId = Integer.parseInt(currentWorldText.substring(
-                        Math.max(currentWorldText.length() - 2, 0)));
+        if (!ctx.players.local().interacting().valid() && !ctx.players.local().inCombat()) {
+            if (ctx.game.tab(Game.Tab.LOGOUT)) {
+                if (worldHop.component(7).visible()) {
+                    final String currentWorldText = ctx.widgets.widget(429).component(1).text();
+                    currentWorldId = Integer.parseInt(currentWorldText.substring(
+                            Math.max(currentWorldText.length() - 2, 0)));
 
-                Condition.wait(new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        return !worldHop.component(1).text().equals("Loading...");
-                    }
-                }, 250, 20);
-
-                worldList = worldHop.component(7).components();
-
-                if (worldList.length > 0) {
-                    parseWorlds();
-
-                    if (!sorted()) {
-                        if (worldHop.component(12).click()) {
-                            Condition.wait(new Callable<Boolean>() {
-                                @Override
-                                public Boolean call() throws Exception {
-                                    parseWorlds();
-                                    return sorted();
-                                }
-                            }, 500, 10);
+                    Condition.wait(new Callable<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            return !worldHop.component(1).text().equals("Loading...");
                         }
-                    }
+                    }, 250, 20);
 
-                    World next = nextValidHop();
+                    worldList = worldHop.component(7).components();
 
-                    ctx.input.move(worldHop.component(7).centerPoint());
-                    if (worldHop.component(7).boundingRect().contains(next.component.boundingRect())) {
-                        if (!worldsTried.contains(currentWorldId)) {
-                            worldsTried.add(currentWorldId);
-                        }
+                    if (worldList.length > 0) {
+                        parseWorlds();
 
-                        next.component.click();
-                        if (next.comment.contains("High Risk")) {
-                            Condition.wait(new Callable<Boolean>() {
-                                @Override
-                                public Boolean call() throws Exception {
-                                    return switchHighRisk.visible();
-                                }
-                            }, 500, 6);
-
-                            if (switchHighRisk.visible()) {
-                                switchHighRisk.click();
+                        if (!sorted()) {
+                            if (worldHop.component(12).click()) {
+                                Condition.wait(new Callable<Boolean>() {
+                                    @Override
+                                    public Boolean call() throws Exception {
+                                        parseWorlds();
+                                        return sorted();
+                                    }
+                                }, 500, 10);
                             }
                         }
 
-                        boolean success = Condition.wait(new Callable<Boolean>() {
-                            @Override
-                            public Boolean call() throws Exception {
-                                final String newWorldText = ctx.widgets.widget(429).component(1).text();
-                                final int newWorld = Integer.parseInt(newWorldText.substring(
-                                        Math.max(newWorldText.length() - 2, 0)));
-                                return newWorld != currentWorldId;
-                            }
-                        }, 500, 8);
+                        World next = nextValidHop();
 
-                        if (success)
-                            NoobCrabs.hopping = false;
-                    } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
-                        ctx.input.scroll(true);
-                    } else {
-                        ctx.input.scroll(false);
+                        ctx.input.move(worldHop.component(7).centerPoint());
+                        if (worldHop.component(7).boundingRect().contains(next.component.boundingRect())) {
+                            if (!worldsTried.contains(currentWorldId)) {
+                                worldsTried.add(currentWorldId);
+                            }
+
+                            next.component.click();
+                            if (next.comment.contains("High Risk")) {
+                                Condition.wait(new Callable<Boolean>() {
+                                    @Override
+                                    public Boolean call() throws Exception {
+                                        return switchHighRisk.visible();
+                                    }
+                                }, 500, 6);
+
+                                if (switchHighRisk.visible()) {
+                                    switchHighRisk.click();
+                                }
+                            }
+
+                            boolean success = Condition.wait(new Callable<Boolean>() {
+                                @Override
+                                public Boolean call() throws Exception {
+                                    final String newWorldText = ctx.widgets.widget(429).component(1).text();
+                                    final int newWorld = Integer.parseInt(newWorldText.substring(
+                                            Math.max(newWorldText.length() - 2, 0)));
+                                    return newWorld != currentWorldId;
+                                }
+                            }, 500, 8);
+
+                            if (success)
+                                NoobCrabs.hopping = false;
+                        } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
+                            ctx.input.scroll(true);
+                        } else {
+                            ctx.input.scroll(false);
+                        }
                     }
+                } else {
+                    btnWorldSwitch.click(true);
                 }
-            } else {
-                btnWorldSwitch.click(true);
+                Condition.sleep(2000);
             }
-            Condition.sleep(2000);
         }
     }
 
