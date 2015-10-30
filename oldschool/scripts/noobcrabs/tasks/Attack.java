@@ -41,7 +41,7 @@ public class Attack extends Task<ClientContext> {
 
             if (Arrays.asList(nearestNpc.actions()).contains("Dismiss")) {
                 nearestNpc.interact("Dismiss");
-            } else {
+            } else if (!ctx.players.local().interacting().tile().equals(nearestNpc.tile())) {
                 nearestNpc.interact("Attack");
             }
 
