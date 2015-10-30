@@ -5,10 +5,7 @@ import oldschool.scripts.noobcrabs.NoobCrabs;
 import oldschool.scripts.noobcrabs.enums.Location;
 import oldschool.scripts.noobcrabs.enums.Target;
 import org.powerbot.script.Condition;
-import org.powerbot.script.rt4.ClientContext;
-import org.powerbot.script.rt4.GameObject;
-import org.powerbot.script.rt4.Npc;
-import org.powerbot.script.rt4.TilePath;
+import org.powerbot.script.rt4.*;
 
 import java.nio.BufferUnderflowException;
 import java.util.concurrent.Callable;
@@ -68,7 +65,8 @@ public class Reset extends Task<ClientContext> {
                 GameObject caveExitPoll = ctx.objects.nil();
 
                 try {
-                    caveEntrancePoll = ctx.objects.select(20).id(resetCaveId).poll();
+                    caveEntrancePoll = ctx.objects.select(20).id(resetCaveId)
+                            .each(Interactive.doSetBounds(new int[]{-74, 90, 26, 165, -182, 147})).poll();
                     caveExitPoll = ctx.objects.select(5).id(resetCaveExitId).poll();
                 } catch (BufferUnderflowException e) {
                     log(e.getMessage());
