@@ -29,8 +29,6 @@ public class Attack extends Task<ClientContext> {
 
     @Override
     public void execute() {
-        NoobCrabs.status = "Stabbing crab...";
-
         if (!ctx.npcs.select().select(new Filter<Npc>() {
             @Override
             public boolean accept(Npc npc) {
@@ -41,21 +39,23 @@ public class Attack extends Task<ClientContext> {
 
             if (Arrays.asList(nearestNpc.actions()).contains("Dismiss")) {
                 nearestNpc.interact("Dismiss");
-            } else if (!ctx.players.local().interacting().tile().equals(nearestNpc.tile())) {
-                nearestNpc.interact("Attack");
             }
 
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return nearestNpc.interacting().name().equals(ctx.players.local().name());
-                }
-            }, 200, 10);
-        } else {
+            if (!ctx.players.local().interacting().tile().equals(nearestNpc.tile())) {
+                nearestNpc.interact("Attack");
+
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return nearestNpc.interacting().name().equals(ctx.players.local().name());
+                    }
+                }, 200, 10);
+            }
+        } else if (!ctx.players.local().inCombat()) {
             nearestCrab = ctx.npcs.select().id(Target.CRAB.ids()).within(NoobCrabs.location.area()).select(new Filter<Npc>() {
                 @Override
                 public boolean accept(Npc npc) {
-                    //if npc not in combat OR npc not interacting OR npcs target not interacting with npc
+                    //if npc not in combat OR npc not interacting OR npc's target not interacting with npc
                     return killSteal || !npc.inCombat() || !npc.interacting().valid() || !npc.interacting().interacting().tile().equals(npc.tile());
                 }
             }).nearest().poll();
