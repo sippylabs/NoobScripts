@@ -40,18 +40,24 @@ public class Hop extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
+        log("Hopping: " + NoobCrabs.hopping);
+        log("logged,enabled,not resetting: " + (ctx.game.loggedIn() && enabled && !NoobCrabs.resetting));
+        log("final: " + (ctx.players.select().within(NoobCrabs.location.area()).size() > maxPlayers
+                || !ctx.objects.select(50).id(6).isEmpty()));
+
         return NoobCrabs.hopping
                 || ((ctx.game.loggedIn() && enabled && !NoobCrabs.resetting)
                 && (ctx.players.select().within(NoobCrabs.location.area()).size() > maxPlayers
-                || !ctx.objects.select(50).id(6).isEmpty()));
+                || !ctx.objects.select(50).id(6).isEmpty())); //cannon
     }
 
     @Override
     public void execute() {
         NoobCrabs.hopping = true;
-        NoobCrabs.status = "Hopping worlds...";
 
         if (!ctx.players.local().interacting().valid() && !ctx.players.local().inCombat()) {
+            NoobCrabs.status = "Hopping worlds...";
+
             if (ctx.game.tab(Game.Tab.LOGOUT)) {
                 if (worldHop.component(7).visible()) {
                     final String currentWorldText = ctx.widgets.widget(429).component(1).text();
