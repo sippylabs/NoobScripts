@@ -24,52 +24,60 @@ public class Reset extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        final Npc nearbyRock = ctx.npcs.select().id(Target.ROCK.ids()).within(NoobCrabs.location.area()).nearest().poll();
+        final Npc nearbyRock = ctx.npcs.select().id(Target.ROCK.ids()).within(NoobCrabs.location.area()).nearest().peek();
 
         return NoobCrabs.resetting
                 || (!NoobCrabs.hopping
                 && !ctx.players.local().inMotion()
+                && !ctx.players.local().inCombat()
                 && nearbyRock.valid()
                 && ctx.players.local().tile().distanceTo(nearbyRock) <= 1
-                && ((!ctx.players.local().inCombat() && !nearbyRock.inCombat()) || (!nearbyRock.interacting().valid() && nearbyRock.animation() == -1)));
+                && (!nearbyRock.inCombat() || (!nearbyRock.interacting().valid() && nearbyRock.animation() == -1)));
     }
 
     @Override
     public void execute() {
-        NoobCrabs.resetting = true;
-        NoobCrabs.status = "Resetting.";
+        boolean ignore = Condition.wait(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return ctx.players.local().inCombat() || ctx.npcs.select().id(Target.ROCK.ids()).nearest().poll().inCombat();
+            }
+        }, 200, 10);
 
-        TilePath reset = ctx.movement.newTilePath(NoobCrabs.location.resetPath());
+        if (!ignore) {
+            NoobCrabs.resetting = true;
+            NoobCrabs.status = "Resetting.";
 
-        if (!NoobCrabs.location.equals(Location.RIGHT)) {
-            if (!walkBack) {
-                if (ctx.players.local().tile().equals(reset.end())) {
-                    walkBack = true;
-                } else reset.traverse();
+            TilePath reset = ctx.movement.newTilePath(NoobCrabs.location.resetPath());
+
+            if (!NoobCrabs.location.equals(Location.RIGHT)) {
+                if (!walkBack) {
+                    if (ctx.players.local().tile().equals(reset.end())) {
+                        walkBack = true;
+                    } else reset.traverse();
+                } else {
+                    reset = reset.reverse();
+
+                    if (NoobCrabs.location.area().contains(ctx.players.local())) {
+                        NoobCrabs.resetting = false;
+                        walkBack = false;
+                    } else reset.traverse();
+                }
             } else {
-                reset = reset.reverse();
+                GameObject caveEntrancePoll = ctx.objects.nil();
+                GameObject caveExitPoll = ctx.objects.nil();
 
-                if (NoobCrabs.location.area().contains(ctx.players.local())) {
-                    NoobCrabs.resetting = false;
-                    walkBack = false;
-                } else reset.traverse();
-            }
-        } else {
-            GameObject caveEntrancePoll = ctx.objects.nil();
-            GameObject caveExitPoll = ctx.objects.nil();
+                try {
+                    caveEntrancePoll = ctx.objects.select(20).id(resetCaveId).poll();
+                    caveExitPoll = ctx.objects.select(5).id(resetCaveExitId).poll();
+                } catch (BufferUnderflowException e) {
+                    log(e.getMessage());
+                }
 
-            try {
-                caveEntrancePoll = ctx.objects.select(20).id(resetCaveId).poll();
-                caveExitPoll = ctx.objects.select(5).id(resetCaveExitId).poll();
-            } catch (BufferUnderflowException e) {
-                log(e.getMessage());
-            }
+                final GameObject caveEntrance = caveEntrancePoll;
+                final GameObject caveExit = caveExitPoll;
 
-            final GameObject caveEntrance = caveEntrancePoll;
-            final GameObject caveExit = caveExitPoll;
-
-            if (!walkBack && caveEntrance.valid()) {
-                if (ctx.players.local().tile().equals(reset.end())) {
+                if (!walkBack && caveEntrance.valid() && caveEntrance.inViewport()) {
                     boolean inside = false;
 
                     if (caveEntrance.inViewport()) {
@@ -88,33 +96,33 @@ public class Reset extends Task<ClientContext> {
                     if (inside) {
                         walkBack = true;
                     }
-                } else reset.traverse();
-            } else if (caveExit.valid()) {
-                reset = reset.reverse();
-                boolean outside = false;
+                } else if (caveExit.valid()) {
+                    reset = reset.reverse();
+                    boolean outside = false;
 
-                if (caveExit.inViewport()) {
-                    caveExit.click(true);
+                    if (caveExit.inViewport()) {
+                        caveExit.click(true);
 
-                    outside = Condition.wait(new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            return !caveExit.inViewport();
-                        }
-                    }, 100, 20);
-                } else if (caveEntrance.valid() && caveEntrance.inViewport()) {
-                    ctx.objects.id(resetCaveId).poll().click(true);
+                        outside = Condition.wait(new Callable<Boolean>() {
+                            @Override
+                            public Boolean call() throws Exception {
+                                return !caveExit.inViewport();
+                            }
+                        }, 100, 20);
+                    } else if (caveEntrance.valid() && caveEntrance.inViewport()) {
+                        ctx.objects.id(resetCaveId).poll().click(true);
+                    } else {
+                        ctx.movement.findPath(caveExit).traverse();
+                    }
+
+                    if (outside) {
+                        reset.traverse();
+                        NoobCrabs.resetting = false;
+                        walkBack = false;
+                    }
                 } else {
-                    ctx.movement.findPath(caveExit).traverse();
-                }
-
-                if (outside) {
                     reset.traverse();
-                    NoobCrabs.resetting = false;
-                    walkBack = false;
                 }
-            } else {
-                reset.traverse();
             }
         }
     }

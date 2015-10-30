@@ -49,12 +49,6 @@ public class Find extends Task<ClientContext> {
             ctx.movement.running(true);
 
         if (ctx.players.local().tile().distanceTo(nearestRock) > 1) {
-            if (nearestRock.tile().matrix(ctx).inViewport()) {
-                nearestRock.tile().matrix(ctx).interact("Walk here");
-            } else {
-                ctx.movement.step(nearestRock);
-            }
-
             if (ctx.players.local().inMotion()) {
                 Condition.wait(new Callable<Boolean>() {
                     @Override
@@ -62,6 +56,12 @@ public class Find extends Task<ClientContext> {
                         return ctx.players.local().tile().distanceTo(ctx.movement.destination()) < 4;
                     }
                 });
+            } else {
+                if (nearestRock.tile().matrix(ctx).inViewport()) {
+                    nearestRock.tile().matrix(ctx).interact("Walk here");
+                } else {
+                    ctx.movement.step(nearestRock);
+                }
             }
         }
 
