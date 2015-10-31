@@ -71,7 +71,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
         final int width = ctx.game.dimensions().width, height = ctx.game.dimensions().height;
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         final String albumId = "75nXaJFy979q9z1";
-        final String imgurKey = "89fa33eb76e11fe";
+        final String imgurKey = "";
         final String uploadUrl = "https://api.imgur.com/3/image";
 
         repaint(img.createGraphics());
