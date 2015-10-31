@@ -1,6 +1,5 @@
 package oldschool.scripts.noobcrabs;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import oldschool.scripts.common.Task;
 import oldschool.scripts.noobcrabs.enums.Location;
 import oldschool.scripts.noobcrabs.gui.Paint;
@@ -12,6 +11,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.HttpsURLConnection;
+import javax.xml.bind.DatatypeConverter;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -89,7 +89,7 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
             final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
             ImageIO.write(img, "png", byteArray);
 
-            final String imageData = Base64.encode(byteArray.toByteArray());
+            final String imageData = DatatypeConverter.printBase64Binary(byteArray.toByteArray());
             final String image = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(imageData, "UTF-8");
             final String album = URLEncoder.encode("album", "UTF-8") + "=" + URLEncoder.encode(albumId, "UTF-8");
             final String type = URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode("base64", "UTF-8");
