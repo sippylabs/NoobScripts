@@ -54,7 +54,11 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void stop() {
-        screenShot();
+        try {
+            screenShot();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -65,27 +69,33 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
         }
     }
 
-    private void screenShot() {
+    private void screenShot() throws IOException {
         final int width = ctx.game.dimensions().width, height = ctx.game.dimensions().height;
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         final String albumId = "75nXaJFy979q9z1";
         final String imgurKey = "89fa33eb76e11fe";
         final String uploadUrl = "https://api.imgur.com/3/image";
+        final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+        OutputStream out = null;
 
         repaint(img.createGraphics());
         img = img.getSubimage(5, 5, 140, 180);
         final File screenshot = new File(getStorageDirectory(), ctx.controller.script().getName() + "_"
                 + String.valueOf(new SimpleDateFormat("ddMMyy-HHmmssSSS").format(new Date())).concat(".png"));
         try {
-            ImageIO.write(img, "png", screenshot);
-        } catch (Exception e) {
+            ImageIO.write(img, "png", byteArray);
+
+            out = new FileOutputStream(screenshot);
+            byteArray.writeTo(out);
+        } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (out != null)
+                out.close();
         }
 
         try {
             System.setProperty("https.protocols", "TLSv1");
-            final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-            ImageIO.write(img, "png", byteArray);
 
             final String imageData = DatatypeConverter.printBase64Binary(byteArray.toByteArray());
             final String image = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(imageData, "UTF-8");
