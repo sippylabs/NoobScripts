@@ -6,6 +6,7 @@ import oldschool.scripts.common.utils.CollectionUtils;
 import oldschool.scripts.noobcrabs.NoobCrabs;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
+import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Component;
 import org.powerbot.script.rt4.Game;
@@ -21,29 +22,32 @@ public class Hop extends Task<ClientContext> {
     final private ArrayList<Integer> worldsTried = new ArrayList<Integer>();
     final private Widget worldHop = ctx.widgets.widget(69);
     final private Component btnWorldSwitch = ctx.widgets.widget(182).component(5);
-    final private Component switchHighRisk = ctx.widgets.widget(219).component(0).component(2);
+    final private Component switchConfirm = ctx.widgets.widget(219).component(0).component(2);
 
     private int currentWorldId = 0;
     private Component[] worldList;
     private int hopLimit;
     private int maxPlayers;
+    private boolean deadmanMode;
 
-    public Hop(final ClientContext ctx, final boolean enabled, final int hopLimit, final int maxPlayers) {
+    public Hop(final ClientContext ctx, final boolean enabled, final int hopLimit, final int maxPlayers, final boolean deadmanMode) {
         super(ctx);
 
         this.enabled = enabled;
         this.hopLimit = hopLimit;
         this.maxPlayers = maxPlayers;
+        this.deadmanMode = deadmanMode;
     }
 
     //REFACTOR THIS SHIT
 
     @Override
     public boolean activate() {
-        return NoobCrabs.hopping
+        return true;
+/*        return NoobCrabs.hopping
                 || ((ctx.game.loggedIn() && enabled && !NoobCrabs.resetting)
                 && (ctx.players.select().within(NoobCrabs.location.area()).size() > maxPlayers
-                || !ctx.objects.select(50).id(6).isEmpty())); //cannon
+                || !ctx.objects.select(50).id(6).isEmpty())); //cannon*/
     }
 
     @Override
@@ -92,16 +96,18 @@ public class Hop extends Task<ClientContext> {
                             }
 
                             next.component.click();
-                            if (next.comment.contains("High Risk")) {
-                                Condition.wait(new Callable<Boolean>() {
+                            if (deadmanMode || next.comment.contains("High Risk")) {
+                                if (switchConfirm.visible()) {
+                                    switchConfirm.click();
+                                } else if (Condition.wait(new Callable<Boolean>() {
                                     @Override
                                     public Boolean call() throws Exception {
-                                        return switchHighRisk.visible();
+                                        return switchConfirm.visible();
                                     }
-                                }, 500, 6);
-
-                                if (switchHighRisk.visible()) {
-                                    switchHighRisk.click();
+                                }, 500, 6)) {
+                                    switchConfirm.click();
+                                } else if (deadmanMode) {
+                                    Condition.sleep(9000);
                                 }
                             }
 
@@ -117,10 +123,28 @@ public class Hop extends Task<ClientContext> {
 
                             if (success)
                                 NoobCrabs.hopping = false;
-                        } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getCenterY()) {
-                            ctx.input.scroll(true);
+                        } else if (next.component.boundingRect().y > worldHop.component(7).boundingRect().getMaxY()) {
+                            for (int i = 0; ctx.game.loggedIn() && next.component.boundingRect().y > worldHop.component(7).boundingRect().getMinY(); i++) {
+                                ctx.input.scroll(true);
+
+                                if (i < 5) {
+                                    Condition.sleep(Random.nextInt(40, 80));
+                                } else {
+                                    i = 0;
+                                    Condition.sleep(Random.nextInt(250, 400));
+                                }
+                            }
                         } else {
-                            ctx.input.scroll(false);
+                            for (int i = 0; ctx.game.loggedIn() && next.component.boundingRect().y < worldHop.component(7).boundingRect().getMinY(); i++) {
+                                ctx.input.scroll(false);
+
+                                if (i < 5) {
+                                    Condition.sleep(Random.nextInt(40, 80));
+                                } else {
+                                    i = 0;
+                                    Condition.sleep(Random.nextInt(250, 400));
+                                }
+                            }
                         }
                     }
                 } else {
@@ -149,7 +173,9 @@ public class Hop extends Task<ClientContext> {
             worlds.removeAll(CollectionUtils.where(worlds, new Filter<World>() {
                 @Override
                 public boolean accept(World world) {
-                    return !world.enabled || world.comment.contains("PVP") || !world.membersOnly;
+                    if (deadmanMode)
+                        return !world.comment.contains("Deadman");
+                    return !world.enabled || world.comment.contains("PVP") || world.comment.contains("Deadman") || !world.membersOnly;
                 }
             }));
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -167,7 +193,7 @@ public class Hop extends Task<ClientContext> {
     }
 
     public World nextValidHop() {
-        if (worldsTried.size() > hopLimit) {
+        if (worldsTried.size() >= hopLimit) {
             worldsTried.clear();
         }
 

@@ -31,6 +31,8 @@ public class StartupInterface extends JDialog {
     private JRadioButton avoidHobgoblins;
     private JRadioButton dontAvoidHobgoblins;
     private JCheckBox enableWorldhopping;
+    private JRadioButton deadmanEnabled;
+    private JRadioButton deadmanDisabled;
     private ClientContext ctx;
     private Startup start;
     private ArrayList<Task> tasks;
@@ -110,6 +112,7 @@ public class StartupInterface extends JDialog {
         start.hoppingEnabled = enableWorldhopping.isSelected();
         start.maxWorldsToHop = (Integer) worldsToHop.getValue();
         start.maxPlayersInArea = (Integer) maxPlayersInArea.getValue();
+        start.deadmanEnabled = deadmanEnabled.isSelected();
 
         start.atkxp = ctx.skills.experience(Constants.SKILLS_ATTACK);
         start.strxp = ctx.skills.experience(Constants.SKILLS_STRENGTH);
@@ -135,7 +138,7 @@ public class StartupInterface extends JDialog {
                         , new Reset(ctx)
                         , new Attack(ctx, start.killSteal)
                         , new Eat(ctx, start.eatAtPercentage)
-                        , new Hop(ctx, start.hoppingEnabled, start.maxWorldsToHop, start.maxPlayersInArea)
+                        , new Hop(ctx, start.hoppingEnabled, start.maxWorldsToHop, start.maxPlayersInArea, start.deadmanEnabled)
                 )
         );
 
@@ -229,52 +232,66 @@ public class StartupInterface extends JDialog {
         panel8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, new Color(-4473925)));
         final JPanel panel9 = new JPanel();
         panel9.setLayout(new BorderLayout(0, 0));
-        panel8.add(panel9, BorderLayout.CENTER);
+        panel8.add(panel9, BorderLayout.NORTH);
         panel9.setBorder(BorderFactory.createTitledBorder("World Hopping"));
         final JPanel panel10 = new JPanel();
         panel10.setLayout(new BorderLayout(0, 0));
-        panel10.setEnabled(true);
-        panel9.add(panel10, BorderLayout.CENTER);
+        panel9.add(panel10, BorderLayout.NORTH);
+        final JPanel panel11 = new JPanel();
+        panel11.setLayout(new BorderLayout(0, 0));
+        panel11.setEnabled(true);
+        panel10.add(panel11, BorderLayout.CENTER);
         final JLabel label2 = new JLabel();
         label2.setText("Max players in area:");
-        panel10.add(label2, BorderLayout.WEST);
+        panel11.add(label2, BorderLayout.WEST);
         maxPlayersInArea = new JSpinner();
         maxPlayersInArea.setAutoscrolls(true);
         maxPlayersInArea.setEnabled(false);
         maxPlayersInArea.setMinimumSize(new Dimension(40, 26));
         maxPlayersInArea.setPreferredSize(new Dimension(40, 26));
-        panel10.add(maxPlayersInArea, BorderLayout.EAST);
-        final JPanel panel11 = new JPanel();
-        panel11.setLayout(new BorderLayout(0, 0));
-        panel11.setEnabled(true);
-        panel9.add(panel11, BorderLayout.SOUTH);
+        panel11.add(maxPlayersInArea, BorderLayout.EAST);
+        final JPanel panel12 = new JPanel();
+        panel12.setLayout(new BorderLayout(0, 0));
+        panel12.setEnabled(true);
+        panel10.add(panel12, BorderLayout.SOUTH);
         final JLabel label3 = new JLabel();
         label3.setText("Num worlds to hop:");
-        panel11.add(label3, BorderLayout.WEST);
+        panel12.add(label3, BorderLayout.WEST);
         worldsToHop = new JSpinner();
         worldsToHop.setEnabled(false);
         worldsToHop.setMinimumSize(new Dimension(40, 26));
         worldsToHop.setPreferredSize(new Dimension(40, 26));
-        panel11.add(worldsToHop, BorderLayout.EAST);
-        final JPanel panel12 = new JPanel();
-        panel12.setLayout(new BorderLayout(0, 0));
-        panel9.add(panel12, BorderLayout.NORTH);
-        enableWorldhopping = new JCheckBox();
-        enableWorldhopping.setText("Enable");
-        panel12.add(enableWorldhopping, BorderLayout.CENTER);
+        panel12.add(worldsToHop, BorderLayout.EAST);
         final JPanel panel13 = new JPanel();
         panel13.setLayout(new BorderLayout(0, 0));
-        contentPane.add(panel13, BorderLayout.SOUTH);
-        panel13.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
+        panel10.add(panel13, BorderLayout.NORTH);
+        enableWorldhopping = new JCheckBox();
+        enableWorldhopping.setText("Enable");
+        panel13.add(enableWorldhopping, BorderLayout.CENTER);
         final JPanel panel14 = new JPanel();
-        panel14.setLayout(new BorderLayout(5, 0));
-        panel13.add(panel14, BorderLayout.EAST);
+        panel14.setLayout(new BorderLayout(0, 0));
+        panel9.add(panel14, BorderLayout.CENTER);
+        panel14.setBorder(BorderFactory.createTitledBorder("Deadman Mode"));
+        deadmanEnabled = new JRadioButton();
+        deadmanEnabled.setText("Yes");
+        panel14.add(deadmanEnabled, BorderLayout.WEST);
+        deadmanDisabled = new JRadioButton();
+        deadmanDisabled.setSelected(true);
+        deadmanDisabled.setText("No");
+        panel14.add(deadmanDisabled, BorderLayout.CENTER);
+        final JPanel panel15 = new JPanel();
+        panel15.setLayout(new BorderLayout(0, 0));
+        contentPane.add(panel15, BorderLayout.SOUTH);
+        panel15.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
+        final JPanel panel16 = new JPanel();
+        panel16.setLayout(new BorderLayout(5, 0));
+        panel15.add(panel16, BorderLayout.EAST);
         buttonCancel = new JButton();
         buttonCancel.setText("Cancel");
-        panel14.add(buttonCancel, BorderLayout.EAST);
+        panel16.add(buttonCancel, BorderLayout.EAST);
         buttonStart = new JButton();
         buttonStart.setText("Start");
-        panel14.add(buttonStart, BorderLayout.WEST);
+        panel16.add(buttonStart, BorderLayout.WEST);
         ButtonGroup buttonGroup;
         buttonGroup = new ButtonGroup();
         buttonGroup.add(dontKillSteal);
@@ -282,6 +299,9 @@ public class StartupInterface extends JDialog {
         buttonGroup = new ButtonGroup();
         buttonGroup.add(avoidHobgoblins);
         buttonGroup.add(dontAvoidHobgoblins);
+        buttonGroup = new ButtonGroup();
+        buttonGroup.add(deadmanDisabled);
+        buttonGroup.add(deadmanEnabled);
     }
 
     /**

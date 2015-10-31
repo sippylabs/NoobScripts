@@ -13,6 +13,7 @@ public class Startup {
     public boolean hoppingEnabled;
     public int maxPlayersInArea;
     public int maxWorldsToHop;
+    public boolean deadmanEnabled;
 
     public Startup() {
         startTime = 0;
@@ -28,5 +29,6 @@ public class Startup {
         hoppingEnabled = false;
         maxPlayersInArea = 8;
         maxWorldsToHop = 10;
+        deadmanEnabled = false;
     }
 }

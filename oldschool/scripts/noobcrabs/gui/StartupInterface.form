@@ -37,7 +37,9 @@
               </component>
               <component id="cb409" class="javax.swing.JSlider" binding="healthPercentSlider">
                 <constraints border-constraint="South"/>
-                <properties/>
+                <properties>
+                  <value value="0"/>
+                </properties>
               </component>
             </children>
           </grid>
@@ -117,68 +119,95 @@
             </border>
             <children>
               <grid id="61d50" layout-manager="BorderLayout" hgap="0" vgap="0">
-                <constraints border-constraint="Center"/>
+                <constraints border-constraint="North"/>
                 <properties/>
                 <border type="none" title="World Hopping">
                   <size top="5" left="5" bottom="5" right="5"/>
                 </border>
                 <children>
-                  <grid id="19358" layout-manager="BorderLayout" hgap="0" vgap="0">
-                    <constraints border-constraint="Center"/>
-                    <properties>
-                      <enabled value="true"/>
-                    </properties>
-                    <border type="none"/>
-                    <children>
-                      <component id="ad52f" class="javax.swing.JLabel">
-                        <constraints border-constraint="West"/>
-                        <properties>
-                          <text value="Max players in area:"/>
-                        </properties>
-                      </component>
-                      <component id="77b69" class="javax.swing.JSpinner" binding="maxPlayersInArea">
-                        <constraints border-constraint="East"/>
-                        <properties>
-                          <autoscrolls value="true"/>
-                          <enabled value="false"/>
-                          <minimumSize width="40" height="26"/>
-                          <preferredSize width="40" height="26"/>
-                        </properties>
-                      </component>
-                    </children>
-                  </grid>
-                  <grid id="128c1" layout-manager="BorderLayout" hgap="0" vgap="0">
-                    <constraints border-constraint="South"/>
-                    <properties>
-                      <enabled value="true"/>
-                    </properties>
-                    <border type="none"/>
-                    <children>
-                      <component id="465c5" class="javax.swing.JLabel">
-                        <constraints border-constraint="West"/>
-                        <properties>
-                          <text value="Num worlds to hop:"/>
-                        </properties>
-                      </component>
-                      <component id="3a0f" class="javax.swing.JSpinner" binding="worldsToHop">
-                        <constraints border-constraint="East"/>
-                        <properties>
-                          <enabled value="false"/>
-                          <minimumSize width="40" height="26"/>
-                          <preferredSize width="40" height="26"/>
-                        </properties>
-                      </component>
-                    </children>
-                  </grid>
-                  <grid id="6750d" layout-manager="BorderLayout" hgap="0" vgap="0">
+                  <grid id="3df66" layout-manager="BorderLayout" hgap="0" vgap="0">
                     <constraints border-constraint="North"/>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="175ea" class="javax.swing.JCheckBox" binding="enableWorldhopping">
+                      <grid id="19358" layout-manager="BorderLayout" hgap="0" vgap="0">
                         <constraints border-constraint="Center"/>
                         <properties>
-                          <text value="Enable"/>
+                          <enabled value="true"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="ad52f" class="javax.swing.JLabel">
+                            <constraints border-constraint="West"/>
+                            <properties>
+                              <text value="Max players in area:"/>
+                            </properties>
+                          </component>
+                          <component id="77b69" class="javax.swing.JSpinner" binding="maxPlayersInArea">
+                            <constraints border-constraint="East"/>
+                            <properties>
+                              <autoscrolls value="true"/>
+                              <enabled value="false"/>
+                              <minimumSize width="40" height="26"/>
+                              <preferredSize width="40" height="26"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                      <grid id="128c1" layout-manager="BorderLayout" hgap="0" vgap="0">
+                        <constraints border-constraint="South"/>
+                        <properties>
+                          <enabled value="true"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="465c5" class="javax.swing.JLabel">
+                            <constraints border-constraint="West"/>
+                            <properties>
+                              <text value="Num worlds to hop:"/>
+                            </properties>
+                          </component>
+                          <component id="3a0f" class="javax.swing.JSpinner" binding="worldsToHop">
+                            <constraints border-constraint="East"/>
+                            <properties>
+                              <enabled value="false"/>
+                              <minimumSize width="40" height="26"/>
+                              <preferredSize width="40" height="26"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                      <grid id="6750d" layout-manager="BorderLayout" hgap="0" vgap="0">
+                        <constraints border-constraint="North"/>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="175ea" class="javax.swing.JCheckBox" binding="enableWorldhopping">
+                            <constraints border-constraint="Center"/>
+                            <properties>
+                              <text value="Enable"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
+                  <grid id="19f47" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints border-constraint="Center"/>
+                    <properties/>
+                    <border type="none" title="Deadman Mode"/>
+                    <children>
+                      <component id="8e4b8" class="javax.swing.JRadioButton" binding="deadmanEnabled">
+                        <constraints border-constraint="West"/>
+                        <properties>
+                          <text value="Yes"/>
+                        </properties>
+                      </component>
+                      <component id="e1bdd" class="javax.swing.JRadioButton" binding="deadmanDisabled">
+                        <constraints border-constraint="Center"/>
+                        <properties>
+                          <selected value="true"/>
+                          <text value="No"/>
                         </properties>
                       </component>
                     </children>
@@ -227,6 +256,10 @@
     <group name="buttonGroup2">
       <member id="1283f"/>
       <member id="d8d7"/>
+    </group>
+    <group name="buttonGroup3">
+      <member id="e1bdd"/>
+      <member id="8e4b8"/>
     </group>
   </buttonGroups>
 </form>
