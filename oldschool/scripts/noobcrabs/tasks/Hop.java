@@ -43,11 +43,10 @@ public class Hop extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        return true;
-/*        return NoobCrabs.hopping
+        return NoobCrabs.hopping
                 || ((ctx.game.loggedIn() && enabled && !NoobCrabs.resetting)
                 && (ctx.players.select().within(NoobCrabs.location.area()).size() > maxPlayers
-                || !ctx.objects.select(50).id(6).isEmpty())); //cannon*/
+                || !ctx.objects.select(50).id(6).isEmpty())); //cannon
     }
 
     @Override
