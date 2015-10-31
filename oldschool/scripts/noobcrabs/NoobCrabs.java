@@ -55,7 +55,8 @@ public class NoobCrabs extends PollingScript<ClientContext> implements PaintList
     @Override
     public void stop() {
         try {
-            screenShot();
+            if (System.currentTimeMillis() - start.startTime > 3600000)
+                screenShot();
         } catch (IOException e) {
             e.printStackTrace();
         }
