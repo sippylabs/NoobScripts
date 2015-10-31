@@ -94,6 +94,8 @@ public class StartupInterface extends JDialog {
             public void stateChanged(ChangeEvent e) {
                 worldsToHop.setEnabled(enableWorldhopping.isSelected());
                 maxPlayersInArea.setEnabled(enableWorldhopping.isSelected());
+                deadmanEnabled.setEnabled(enableWorldhopping.isSelected());
+                deadmanDisabled.setEnabled(enableWorldhopping.isSelected());
 
                 if (enableWorldhopping.isSelected()) {
                     ((JSpinner.DefaultEditor) maxPlayersInArea.getEditor()).getTextField().setEditable(false);
@@ -189,6 +191,7 @@ public class StartupInterface extends JDialog {
         healthPercent.setText("Label");
         panel2.add(healthPercent, BorderLayout.CENTER);
         healthPercentSlider = new JSlider();
+        healthPercentSlider.setValue(0);
         panel2.add(healthPercentSlider, BorderLayout.SOUTH);
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new BorderLayout(0, 0));
@@ -273,9 +276,11 @@ public class StartupInterface extends JDialog {
         panel9.add(panel14, BorderLayout.CENTER);
         panel14.setBorder(BorderFactory.createTitledBorder("Deadman Mode"));
         deadmanEnabled = new JRadioButton();
+        deadmanEnabled.setEnabled(false);
         deadmanEnabled.setText("Yes");
         panel14.add(deadmanEnabled, BorderLayout.WEST);
         deadmanDisabled = new JRadioButton();
+        deadmanDisabled.setEnabled(false);
         deadmanDisabled.setSelected(true);
         deadmanDisabled.setText("No");
         panel14.add(deadmanDisabled, BorderLayout.CENTER);

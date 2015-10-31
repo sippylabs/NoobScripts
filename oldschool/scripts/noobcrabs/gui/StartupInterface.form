@@ -200,12 +200,14 @@
                       <component id="8e4b8" class="javax.swing.JRadioButton" binding="deadmanEnabled">
                         <constraints border-constraint="West"/>
                         <properties>
+                          <enabled value="false"/>
                           <text value="Yes"/>
                         </properties>
                       </component>
                       <component id="e1bdd" class="javax.swing.JRadioButton" binding="deadmanDisabled">
                         <constraints border-constraint="Center"/>
                         <properties>
+                          <enabled value="false"/>
                           <selected value="true"/>
                           <text value="No"/>
                         </properties>
